@@ -13,7 +13,7 @@ Considerations:
 * tanstack query
 * useSWR
 
-We decided to use TanStack Query due to its superior feature set compared to Axios, including advanced caching, stale-while-revalidate and optimistic updates. Additionally, TanStack Query provides more granular control over cache revalidation compared to useSWR, allowing us to better optimize our application's performance and user experience.
+We decided to use TanStack Query due to its superior feature set compared to Axios, including advanced caching, stale-while-revalidate and optimistic updates. Another advantage of TanStack, is that it fits with existing infrastructure in this project, due to it allowing to pass a custom fetch function to the query client. Additionally, TanStack Query provides more granular control over cache revalidation compared to useSWR, allowing us to better optimize our application's performance and user experience.
 
 ## Status
 
