@@ -2,7 +2,7 @@ import PlayButton from "@/components/ui/playIcon";
 import { Track } from "@/types";
 import { Row } from "@tanstack/react-table";
 import { useContext } from "react";
-import AudioContext from "./audioContext";
+import AudioContext from "../audioContext";
 
 interface PlayCellProps {
     row: Row<Track>

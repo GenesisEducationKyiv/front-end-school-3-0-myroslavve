@@ -4,7 +4,7 @@ import { DataTableMeta } from "@/components/data-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Track } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
-import PlayCell from "../playCell";
+import PlayCell from "./playCell";
 import ActionCell from "./actionCell";
 import ActionHeader from "./actionHeader";
 import DataCell from "./dataCell";
