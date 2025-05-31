@@ -11,7 +11,7 @@ import { STORAGE_URL } from "@/constants";
 import { getGenres } from "@/lib/api/genres";
 import { getTracks } from "@/lib/api/tracks";
 import { debounce } from "@/lib/utils";
-import { PaginatedResponse, Track } from "@/types";
+import { PaginatedResponse, Track } from "@/lib/api/schemas";
 import { useCallback, useEffect, useRef, useState } from "react";
 import AudioPlayer from "react-h5-audio-player";
 import AudioContext from "./audioContext";

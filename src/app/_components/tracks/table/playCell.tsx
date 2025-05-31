@@ -1,5 +1,5 @@
 import PlayButton from "@/components/ui/playIcon";
-import { Track } from "@/types";
+import { Track } from "@/lib/api/schemas";
 import { Row } from "@tanstack/react-table";
 import { useContext } from "react";
 import AudioContext from "../audioContext";

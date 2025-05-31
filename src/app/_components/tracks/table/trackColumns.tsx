@@ -2,7 +2,7 @@
 
 import { DataTableMeta } from "@/components/data-table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Track } from "@/types";
+import { Track } from "@/lib/api/schemas";
 import { ColumnDef } from "@tanstack/react-table";
 import PlayCell from "./playCell";
 import ActionCell from "./actionCell";
