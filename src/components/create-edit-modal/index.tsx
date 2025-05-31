@@ -3,7 +3,7 @@
 import { getGenres } from "@/lib/api/genres"
 import { createTrack, updateTrack } from "@/lib/api/tracks"
 import { isValidImageUrl } from "@/lib/utils"
-import { CreateTrackDto, Track, UpdateTrackDto } from "@/lib/api/schemas"
+import { Track } from "@/lib/api/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Plus, X } from "lucide-react"
 import { useEffect, useState } from "react"
@@ -75,7 +75,7 @@ export default function CreateEditModal({ track, customButton, updateData, onClo
     const onSubmit = async (data: TrackFormValues) => {
         if (isEdit) {
             try {
-                await updateTrack(track?.id, data as UpdateTrackDto)
+                await updateTrack(track?.id, data)
                 toast.success("Track updated successfully")
             } catch (error) {
                 console.error("Failed to update track:", error)
@@ -83,7 +83,7 @@ export default function CreateEditModal({ track, customButton, updateData, onClo
             }
         } else {
             try {
-                await createTrack(data as CreateTrackDto)
+                await createTrack(data)
                 toast.success("Track created successfully")
             } catch (error) {
                 console.error("Failed to create track:", error)
