@@ -1,4 +1,4 @@
-import { Track } from "@/types";
+import { Track } from "@/lib/api/schemas";
 import { createContext } from "react";
 
 type AudioContextType = {

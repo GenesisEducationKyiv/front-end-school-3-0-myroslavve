@@ -5,7 +5,7 @@ import { EllipsisIcon, UploadIcon } from "lucide-react"
 
 import { DropdownMenu } from "@/components/ui/dropdownMenu"
 import { deleteTrack, deleteTrackFile, uploadTrack } from "@/lib/api/tracks"
-import { Track } from "@/types"
+import { Track } from "@/lib/api/schemas"
 import { Row } from "@tanstack/react-table"
 import { EditIcon } from "lucide-react"
 import { useState } from "react"
