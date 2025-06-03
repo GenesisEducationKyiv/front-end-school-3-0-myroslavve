@@ -2,16 +2,13 @@ import {
     TrackDtoSchema, 
     PaginatedTracksResponseSchema, 
     BatchDeleteResponseSchema,
-    Track,
     CreateTrackDto,
     UpdateTrackDto,
     QueryParams,
-    PaginatedResponse,
-    BatchDeleteResponse
 } from "./schemas";
 import { apiFetch } from "./api-fetch";
 
-const getTracks = async (params: QueryParams = {}): Promise<PaginatedResponse<Track>> => {
+const getTracks = async (params: QueryParams = {}) => {
     const queryParams = new URLSearchParams();
 
     if (params.page !== undefined) queryParams.append('page', params.page.toString());
@@ -28,7 +25,7 @@ const getTracks = async (params: QueryParams = {}): Promise<PaginatedResponse<Tr
     });
 }
 
-const createTrack = async (track: CreateTrackDto): Promise<Track> => {
+const createTrack = async (track: CreateTrackDto) => {
     return apiFetch('/tracks', {
         method: 'POST',
         body: track,
@@ -36,7 +33,7 @@ const createTrack = async (track: CreateTrackDto): Promise<Track> => {
     });
 }
 
-const updateTrack = async (id: string, track: UpdateTrackDto): Promise<Track> => {
+const updateTrack = async (id: string, track: UpdateTrackDto) => {
     return apiFetch(`/tracks/${id}`, {
         method: 'PUT',
         body: track,
@@ -44,13 +41,13 @@ const updateTrack = async (id: string, track: UpdateTrackDto): Promise<Track> =>
     });
 }
 
-const deleteTrack = async (id: string): Promise<void> => {
+const deleteTrack = async (id: string) => {
     return apiFetch(`/tracks/${id}`, {
         method: 'DELETE'
     });
 }
 
-const deleteTracks = async (ids: string[]): Promise<BatchDeleteResponse> => {
+const deleteTracks = async (ids: string[])=> {
     return apiFetch('/tracks/delete', {
         method: 'POST',
         body: { ids },
@@ -58,7 +55,7 @@ const deleteTracks = async (ids: string[]): Promise<BatchDeleteResponse> => {
     });
 }
 
-const uploadTrack = async (id: string, file: File): Promise<Track> => {
+const uploadTrack = async (id: string, file: File) => {
     const formData = new FormData();
     formData.append('file', file);
     
@@ -69,7 +66,7 @@ const uploadTrack = async (id: string, file: File): Promise<Track> => {
     });
 }
 
-const deleteTrackFile = async (id: string): Promise<void> => {
+const deleteTrackFile = async (id: string) => {
     return apiFetch(`/tracks/${id}/file`, {
         method: 'DELETE'
     });
