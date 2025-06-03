@@ -1,6 +1,6 @@
 # ADR 0000: Add a Library for Simplifying API Calls
 
-The project currently contains significant code duplication in its API call implementations. This redundancy impacts development velocity when implementing new features and complicates maintenance when modifying existing functionality. To address these concerns, we have decided to integrate a library that streamlines API call management.
+The project currently contains significant code duplication in its API call implementations. This redundancy impacts development velocity when implementing new features and complicates maintenance when modifying existing functionality. Additionally, the project requires advanced features like caching and optimistic updates. To address these concerns, we have decided to integrate a library that streamlines API call management.
 
 ## Decision
 
