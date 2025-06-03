@@ -65,7 +65,6 @@ const uploadTrack = async (id: string, file: File): Promise<Track> => {
     return apiFetch(`/tracks/${id}/upload`, {
         method: 'POST',
         body: formData,
-        isFormData: true,
         schema: TrackDtoSchema
     });
 }

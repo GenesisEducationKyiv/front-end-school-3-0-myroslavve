@@ -1,13 +1,5 @@
-import { z } from 'zod';
 import { API_URL } from "@/constants";
-
-interface ApiFetchOptions<T> {
-    method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
-    body?: object | FormData | null;
-    headers?: Record<string, string>;
-    schema?: z.ZodSchema<T>;
-    isFormData?: boolean;
-}
+import { ApiFetchOptions } from "./types";
 
 export async function apiFetch<T>(
     endpoint: string, 
@@ -18,17 +10,16 @@ export async function apiFetch<T>(
         body,
         headers = {},
         schema,
-        isFormData = false
     } = options;
 
     const defaultHeaders: Record<string, string> = {};
-    if (!isFormData && body) {
+    if (body && !(body instanceof FormData)) {
         defaultHeaders['Content-Type'] = 'application/json';
     }
 
     let requestBody: string | FormData | undefined;
     if (body) {
-        requestBody = isFormData ? body as FormData : JSON.stringify(body);
+        requestBody = body instanceof FormData ? body : JSON.stringify(body);
     }
 
     const response = await fetch(`${API_URL}${endpoint}`, {
