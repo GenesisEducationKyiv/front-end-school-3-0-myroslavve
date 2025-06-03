@@ -95,7 +95,4 @@ export type UpdateTrackDto = z.infer<typeof UpdateTrackDtoSchema>;
 export type QueryParams = z.infer<typeof QueryParamsSchema>;
 export type BatchDeleteResponse = z.infer<typeof BatchDeleteResponseSchema>;
 
-export type PaginatedResponse<T> = {
-    data: T[];
-    meta: z.infer<typeof PaginationMetaSchema>;
-}; 
+export type PaginatedResponse<T> = z.infer<ReturnType<typeof PaginatedResponseSchema<z.ZodType<T>>>>;
