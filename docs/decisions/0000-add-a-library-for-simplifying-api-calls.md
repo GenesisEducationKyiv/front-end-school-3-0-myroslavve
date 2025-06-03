@@ -30,3 +30,4 @@ Proposed
 
 * Less control over API calls
 * Bigger bundle size
+* Coupling with TanStack Query (most of its features won't be necessary in this project, but we will still depend on those)
