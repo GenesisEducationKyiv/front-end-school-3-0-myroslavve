@@ -10,8 +10,11 @@ We will implement TanStack Query in the project.
 
 Considerations:
 * axios
-* tanstack query
+* TanStack query
 * useSWR
+* Don't change (find a way to simplify without adding a dependency)
+
+Decided to add a library, since the cost of implementing a custom solution would be higher than the cost of adding a dependency.
 
 We decided to use TanStack Query due to its superior feature set compared to Axios, including advanced caching, stale-while-revalidate and optimistic updates. Another advantage of TanStack, is that it fits with existing infrastructure in this project, due to it allowing to pass a custom fetch function to the query client. Additionally, TanStack Query provides more granular control over cache revalidation compared to useSWR, allowing us to better optimize our application's performance and user experience.
 
