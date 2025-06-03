@@ -2,7 +2,7 @@
 
 import { getGenres } from "@/lib/api/genres"
 import { createTrack, updateTrack } from "@/lib/api/tracks"
-import { isValidImageUrl } from "@/lib/utils"
+import { isValidImageUrl } from "@/lib/utils/image"
 import { Track } from "@/lib/api/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Plus, X } from "lucide-react"
