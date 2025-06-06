@@ -1,10 +1,11 @@
 import { API_URL } from "@/constants";
 import { ApiFetchOptions } from "./types";
+import { ok, err, Result } from "neverthrow";
 
 export async function apiFetch<T>(
     endpoint: string, 
     options: ApiFetchOptions<T> = {}
-): Promise<T> {
+): Promise<Result<T, Error>> {
     const {
         method = 'GET',
         body,
@@ -29,18 +30,22 @@ export async function apiFetch<T>(
     });
 
     if (response.status === 204 || method === 'DELETE' && response.ok) {
-        return undefined as T;
+        return ok(undefined as T);
     }
 
     const json = await response.json();
 
     if (!response.ok) {
-        throw new Error(json.error || `Failed to ${method.toLowerCase()} ${endpoint}`);
+        return err(new Error(json.error || `Failed to ${method.toLowerCase()} ${endpoint}`));
     }
 
     if (schema) {
-        return schema.parse(json);
+        const result = schema.safeParse(json);
+        if (result.success) {
+            return ok(result.data);
+        }
+        return err(new Error(result.error.message));
     }
 
-    return json;
+    return ok(json);
 } 

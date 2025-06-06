@@ -24,36 +24,36 @@ export default function ActionCell({ row, updateData, isLoading }: ActionCellPro
     const [isOpen, setIsOpen] = useState(false)
 
     const handleUpload = async (file: File) => {
-        try {
-            await uploadTrack(row.original.id, file)
+        const result = await uploadTrack(row.original.id, file)
+        if (result.isOk()) {
             setIsOpen(false)
             toast.success("Track uploaded successfully")
             await updateData()
-        } catch (error) {
-            console.error("Failed to upload track:", error)
+        } else {
+            console.error("Failed to upload track:", result.error)
             toast.error("Failed to upload track")
         }
     }
 
     const handleDelete = async () => {
-        try {
-            await deleteTrack(row.original.id)
+        const result = await deleteTrack(row.original.id)
+        if (result.isOk()) {
             setIsOpen(false)
             toast.success("Track deleted successfully")
             await updateData()
-        } catch (error) {
-            console.error("Failed to delete track:", error)
+        } else {
+            console.error("Failed to delete track:", result.error)
             toast.error("Failed to delete track")
         }
     }
 
     const handleDeleteFile = async () => {
-        try {
-            await deleteTrackFile(row.original.id)
+        const result = await deleteTrackFile(row.original.id)
+        if (result.isOk()) {
             toast.success("Track file deleted successfully")
             await updateData()
-        } catch (error) {
-            console.error("Failed to delete track file:", error)
+        } else {
+            console.error("Failed to delete track file:", result.error)
             toast.error("Failed to delete track file")
         }
     }

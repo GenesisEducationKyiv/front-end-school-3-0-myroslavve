@@ -16,6 +16,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import AudioPlayer from "react-h5-audio-player";
 import AudioContext from "./audioContext";
 import { columns } from "./table/trackColumns";
+import { toast } from "sonner";
 
 export function Tracks() {
     const [data, setData] = useState<Track[]>([]);
@@ -37,11 +38,12 @@ export function Tracks() {
 
     useEffect(() => {
         const fetchGenres = async () => {
-            try {
-                const genres = await getGenres();
-                setGenreOptions(['All', ...genres]);
-            } catch (error) {
-                console.error("Failed to fetch genres:", error);
+            const genres = await getGenres();
+            if (genres.isOk()) {
+                setGenreOptions(['All', ...genres.value]);
+            } else {
+                toast.error("Failed to fetch genres");
+                console.error("Failed to fetch genres:", genres.error);
             }
         };
 
@@ -64,22 +66,22 @@ export function Tracks() {
 
     const fetchTracks = useCallback(async () => {
         setIsLoading(true);
-        try {
-            const result = await getTracks({
-                page,
-                limit,
-                sort,
-                order,
-                search: search || undefined,
-                genre: genre === 'All' ? undefined : genre,
-            });
-            setData(result.data);
-            setTracksMeta(result.meta);
-        } catch (error) {
-            console.error("Failed to fetch tracks:", error);
-        } finally {
-            setIsLoading(false);
+        const result = await getTracks({
+            page,
+            limit,
+            sort,
+            order,
+            search: search || undefined,
+            genre: genre === 'All' ? undefined : genre,
+        });
+        if (result.isOk()) {
+            setData(result.value.data);
+            setTracksMeta(result.value.meta);
+        } else {
+            toast.error("Failed to fetch tracks");
+            console.error("Failed to fetch tracks:", result.error);
         }
+        setIsLoading(false);
     }, [page, limit, sort, order, search, genre]);
 
     useEffect(() => {

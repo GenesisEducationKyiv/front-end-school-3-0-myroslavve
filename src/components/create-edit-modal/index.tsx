@@ -59,14 +59,16 @@ export default function CreateEditModal({ track, customButton, updateData, onClo
     useEffect(() => {
         const loadGenres = async () => {
             setIsGenresLoading(true);
-            try {
-                const genres = await getGenres();
-                setAvailableGenres(genres);
-            } catch (error) {
-                console.error("Failed to load genres:", error);
-            } finally {
-                setIsGenresLoading(false);
+
+            const genres = await getGenres();
+            if (genres.isOk()) {
+                setAvailableGenres(genres.value);
+            } else {
+                console.error("Failed to load genres:", genres.error)
+                toast.error("Failed to load genres")
             }
+            
+            setIsGenresLoading(false);
         };
 
         loadGenres();
@@ -74,19 +76,19 @@ export default function CreateEditModal({ track, customButton, updateData, onClo
 
     const onSubmit = async (data: TrackFormValues) => {
         if (isEdit) {
-            try {
-                await updateTrack(track?.id, data)
+            const result = await updateTrack(track?.id, data)
+            if (result.isOk()) {
                 toast.success("Track updated successfully")
-            } catch (error) {
-                console.error("Failed to update track:", error)
+            } else {
+                console.error("Failed to update track:", result.error)
                 toast.error("Failed to update track")
             }
         } else {
-            try {
-                await createTrack(data)
+            const result = await createTrack(data)
+            if (result.isOk()) {
                 toast.success("Track created successfully")
-            } catch (error) {
-                console.error("Failed to create track:", error)
+            } else {
+                console.error("Failed to create track:", result.error)
                 toast.error("Failed to create track")
             }
         }
