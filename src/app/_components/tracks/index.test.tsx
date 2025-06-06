@@ -2,6 +2,7 @@ import { getGenres } from '@/lib/api/genres';
 import { getTracks } from '@/lib/api/tracks';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Tracks } from './index';
+import { ok } from 'neverthrow';
 
 // Mock the API modules
 jest.mock('@/lib/api/tracks');
@@ -66,7 +67,7 @@ describe('Tracks Component', () => {
         }
     ];
 
-    const mockTracksResponse = {
+    const mockTracksResponse = ok({
         data: mockTracks,
         meta: {
             total: 2,
@@ -74,9 +75,9 @@ describe('Tracks Component', () => {
             limit: 10,
             totalPages: 1
         }
-    };
+    });
 
-    const mockGenres = ['Rock', 'Pop', 'Jazz'];
+    const mockGenres = ok(['Rock', 'Pop', 'Jazz']);
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -115,7 +116,7 @@ describe('Tracks Component', () => {
     });
 
     test('handles pagination', async () => {
-        (getTracks as jest.Mock).mockResolvedValue({
+        (getTracks as jest.Mock).mockResolvedValue(ok({
             data: mockTracks,
             meta: {
                 total: 20,
@@ -123,7 +124,7 @@ describe('Tracks Component', () => {
                 limit: 10,
                 totalPages: 2
             }
-        });
+        }));
 
         render(<Tracks />);
 

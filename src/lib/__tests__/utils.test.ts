@@ -1,4 +1,5 @@
-import { debounce, isValidImageUrl } from '../utils';
+import { debounce } from '../utils/input';
+import { isValidImageUrl } from '../utils/image';
 
 describe('debounce', () => {
     beforeEach(() => {
