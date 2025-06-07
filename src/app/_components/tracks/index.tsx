@@ -17,24 +17,29 @@ import AudioPlayer from "react-h5-audio-player";
 import AudioContext from "./audioContext";
 import { columns } from "./table/trackColumns";
 import { toast } from "sonner";
+import useTracksQueryParams from "./hooks/useTracksQueryParams";
 
 export function Tracks() {
     const [data, setData] = useState<Track[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
     const playerRef = useRef<AudioPlayer>(null);
-    const [tracksMeta, setTracksMeta] = useState<PaginatedResponse<Track>['meta'] | null>(null);
+    const [tracksMeta, setTracksMeta] = useState<
+      PaginatedResponse<Track>["meta"] | null
+    >(null);
+    const [genreOptions, setGenreOptions] = useState<string[]>(['All']);
     const totalTracks = tracksMeta?.total || 0;
     const totalPages = tracksMeta?.totalPages || 1;
 
-    // Pagination and filtering state
-    const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(10);
-    const [sort, setSort] = useState<'title' | 'artist' | 'album' | 'createdAt'>("createdAt");
-    const [order, setOrder] = useState<'asc' | 'desc'>("desc");
-    const [search, setSearch] = useState("");
-    const [genre, setGenre] = useState<string>('All');
-    const [genreOptions, setGenreOptions] = useState<string[]>(['All']);
+    const {
+    setParam,
+    page,
+    limit,
+    sort,
+    order,
+    search,
+    genre,
+    } = useTracksQueryParams();
 
     useEffect(() => {
         const fetchGenres = async () => {
@@ -72,7 +77,10 @@ export function Tracks() {
             sort,
             order,
             search: search || undefined,
-            genre: genre === 'All' ? undefined : genre,
+            genre: 
+                genre === "All" || !genreOptions.includes(genre) 
+                ? undefined 
+                : genre,
         });
         if (result.isOk()) {
             setData(result.value.data);
@@ -82,25 +90,25 @@ export function Tracks() {
             console.error("Failed to fetch tracks:", result.error);
         }
         setIsLoading(false);
-    }, [page, limit, sort, order, search, genre]);
+    }, [page, limit, sort, order, search, genre, genreOptions]);
 
     useEffect(() => {
         fetchTracks();
     }, [fetchTracks]);
 
     const handleSearchChange = debounce((value: string) => {
-        setSearch(value);
+        setParam("search", value);
     }, 300);
 
     const handlePrevPage = () => {
         if (page > 1) {
-            setPage(page - 1);
+            setParam("page", (page - 1).toString());
         }
     };
 
     const handleNextPage = () => {
         if (page < totalPages) {
-            setPage(page + 1);
+            setParam("page", (page + 1).toString());
         }
     };
 
@@ -121,7 +129,7 @@ export function Tracks() {
                                 <Label className="text-nowrap">Sort by:</Label>
                                 <Select
                                     value={sort}
-                                    onValueChange={(value) => setSort(value as 'title' | 'artist' | 'album' | 'createdAt')}
+                                    onValueChange={(value) => setParam("sort", value)}
                                     data-testid="sort-select"
                                 >
                                     <SelectTrigger>
@@ -140,7 +148,7 @@ export function Tracks() {
                                 <Label className="text-nowrap">Order:</Label>
                                 <Select
                                     value={order}
-                                    onValueChange={(value) => setOrder(value as 'asc' | 'desc')}
+                                    onValueChange={(value) => setParam("order", value)}
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Order:" />
@@ -156,7 +164,7 @@ export function Tracks() {
                                 <Label className="text-nowrap">Items per page:</Label>
                                 <Select
                                     value={limit.toString()}
-                                    onValueChange={(value) => setLimit(Number(value))}
+                                    onValueChange={(value) => setParam("limit", value)}
                                     disabled={isLoading}
                                 >
                                     <SelectTrigger>
@@ -186,7 +194,7 @@ export function Tracks() {
                         data={isLoading ? Array(limit).fill({}) : data}
                         updateData={fetchTracks}
                         isLoading={isLoading}
-                        setFilter={setGenre}
+                        setFilter={(filter) => setParam("genre", filter)}
                         filterOptions={genreOptions}
                     />
 
