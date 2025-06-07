@@ -33,7 +33,7 @@ export default function UploadModal({ customButton, onUpload, onDelete, uploaded
 
     const onSubmit = async (data: UploadFormValues) => {
         onUpload(data.file)
-        setUploadedFileName((data.file as File).name)
+        setUploadedFileName(data.file.name)
     }
 
     const handleDelete = () => {
@@ -89,7 +89,7 @@ export default function UploadModal({ customButton, onUpload, onDelete, uploaded
                                             </label>
                                             {(field.value || uploadedFileName) && (
                                                 <p className="mt-2 text-sm text-green-600">
-                                                    Selected: {field.value ? (field.value as File).name : uploadedFileName}
+                                                    Selected: {field.value ? field.value.name : uploadedFileName}
                                                 </p>
                                             )}
                                         </div>

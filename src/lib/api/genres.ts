@@ -1,21 +1,24 @@
-import { API_URL } from "@/constants";
+import { GenresSchema } from "./schemas";
+import { apiFetch } from "./api-fetch";
+import { ok } from "neverthrow";
 
 let genresCache: string[] | null = null;
 
 const getGenres = async () => {
     if (genresCache) {
-        return genresCache;
+        return ok(genresCache);
     }
 
-    const response = await fetch(`${API_URL}/genres`);
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(data.error || "Failed to fetch genres");
+    const validatedData = await apiFetch('/genres', {
+        schema: GenresSchema
+    });
+    
+    if (validatedData.isOk()) {
+        genresCache = validatedData.value;
+        return validatedData;
     }
 
-    genresCache = data;
-    return data;
+    return validatedData;
 }
 
 export { getGenres };

@@ -1,7 +1,14 @@
-import { API_URL } from "@/constants";
-import { BatchDeleteResponse, CreateTrackDto, PaginatedResponse, QueryParams, Track, UpdateTrackDto } from "@/types";
+import { 
+    TrackDtoSchema, 
+    PaginatedTracksResponseSchema, 
+    BatchDeleteResponseSchema,
+    CreateTrackDto,
+    UpdateTrackDto,
+    QueryParams,
+} from "./schemas";
+import { apiFetch } from "./api-fetch";
 
-const getTracks = async (params: QueryParams = {}): Promise<PaginatedResponse<Track>> => {
+const getTracks = async (params: QueryParams = {}) => {
     const queryParams = new URLSearchParams();
 
     if (params.page !== undefined) queryParams.append('page', params.page.toString());
@@ -12,99 +19,57 @@ const getTracks = async (params: QueryParams = {}): Promise<PaginatedResponse<Tr
     if (params.genre) queryParams.append('genre', params.genre);
     if (params.artist) queryParams.append('artist', params.artist);
 
-    const response = await fetch(`${API_URL}/tracks?${queryParams.toString()}`);
-    const json = await response.json();
-
-    return json;
-}
-
-const createTrack = async (track: CreateTrackDto): Promise<Track> => {
-    const response = await fetch(`${API_URL}/tracks`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(track),
+    const endpoint = `/tracks?${queryParams.toString()}`;
+    return apiFetch(endpoint, {
+        schema: PaginatedTracksResponseSchema
     });
-    const json = await response.json();
-
-    if (!response.ok) {
-        throw new Error(json.error || "Failed to create track");
-    }
-
-    return json;
 }
 
-const updateTrack = async (id: string, track: UpdateTrackDto): Promise<Track> => {
-    const response = await fetch(`${API_URL}/tracks/${id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(track),
+const createTrack = async (track: CreateTrackDto) => {
+    return apiFetch('/tracks', {
+        method: 'POST',
+        body: track,
+        schema: TrackDtoSchema
     });
-    const json = await response.json();
-
-    if (!response.ok) {
-        throw new Error(json.error || "Failed to update track");
-    }
-
-    return json;
 }
 
-const deleteTrack = async (id: string): Promise<void> => {
-    const response = await fetch(`${API_URL}/tracks/${id}`, {
-        method: "DELETE",
+const updateTrack = async (id: string, track: UpdateTrackDto) => {
+    return apiFetch(`/tracks/${id}`, {
+        method: 'PUT',
+        body: track,
+        schema: TrackDtoSchema
     });
-
-    if (!response.ok) {
-        const json = await response.json();
-        throw new Error(json.error || "Failed to delete track");
-    }
 }
 
-const deleteTracks = async (ids: string[]): Promise<BatchDeleteResponse> => {
-    const response = await fetch(`${API_URL}/tracks/delete`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ ids }),
+const deleteTrack = async (id: string) => {
+    return apiFetch(`/tracks/${id}`, {
+        method: 'DELETE'
     });
-    const json = await response.json();
-
-    if (!response.ok) {
-        throw new Error(json.error || "Failed to delete tracks");
-    }
-
-    return json;
 }
 
-const uploadTrack = async (id: string, file: File): Promise<Track> => {
+const deleteTracks = async (ids: string[])=> {
+    return apiFetch('/tracks/delete', {
+        method: 'POST',
+        body: { ids },
+        schema: BatchDeleteResponseSchema
+    });
+}
+
+const uploadTrack = async (id: string, file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    const response = await fetch(`${API_URL}/tracks/${id}/upload`, {
-        method: "POST",
+    
+    return apiFetch(`/tracks/${id}/upload`, {
+        method: 'POST',
         body: formData,
+        schema: TrackDtoSchema
     });
-    const json = await response.json();
-
-    if (!response.ok) {
-        throw new Error(json.error || "Failed to upload track");
-    }
-
-    return json;
 }
 
-const deleteTrackFile = async (id: string): Promise<void> => {
-    const response = await fetch(`${API_URL}/tracks/${id}/file`, {
-        method: "DELETE",
+const deleteTrackFile = async (id: string) => {
+    return apiFetch(`/tracks/${id}/file`, {
+        method: 'DELETE'
     });
-
-    if (!response.ok) {
-        const json = await response.json();
-        throw new Error(json.error || "Failed to delete track file");
-    }
 }
 
 export { createTrack, deleteTrack, deleteTrackFile, deleteTracks, getTracks, updateTrack, uploadTrack };

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import DeleteButton from "@/components/delete-button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdownMenu"
 import { deleteTracks } from "@/lib/api/tracks"
-import { Track } from "@/types"
+import { Track } from "@/lib/api/schemas"
 import { Row } from "@tanstack/react-table"
 import { useState } from "react"
 import { toast } from "sonner"
@@ -23,14 +23,14 @@ export default function ActionHeader({ rows, updateData, removeSelectionRows, is
     const [isOpen, setIsOpen] = useState(false)
 
     const handleDelete = async () => {
-        try {
-            await deleteTracks(rows.map(row => row.original.id))
+        const result = await deleteTracks(rows.map(row => row.original.id))
+        if (result.isOk()) {
             setIsOpen(false)
             await updateData()
             removeSelectionRows()
             toast.success("Tracks deleted successfully")
-        } catch (error) {
-            console.error("Failed to delete tracks:", error)
+        } else {
+            console.error("Failed to delete tracks:", result.error)
             toast.error("Failed to delete tracks")
         }
     }

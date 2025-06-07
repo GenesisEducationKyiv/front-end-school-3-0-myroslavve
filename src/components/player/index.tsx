@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/tailwind-utils";
 import { ArrowLeftIcon, ArrowRightIcon, PauseIcon, PlayIcon, RepeatIcon, RotateCcwIcon, RotateCwIcon, Volume2Icon, VolumeXIcon } from "lucide-react";
 import Image from "next/image";
 import AudioPlayer from "react-h5-audio-player";
