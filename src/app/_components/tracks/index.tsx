@@ -41,6 +41,12 @@ export function Tracks() {
     genre,
     } = useTracksQueryParams();
 
+    const handleSortChange = (value: string) => setParam("sort", value);
+    const handleOrderChange = (value: string) => setParam("order", value);
+    const handleLimitChange = (value: string) => setParam("limit", value);
+    const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => handleSearchChange(e.target.value);
+    const handleGenreFilterChange = (filter: string) => setParam("genre", filter);
+
     useEffect(() => {
         const fetchGenres = async () => {
             const genres = await getGenres();
@@ -129,7 +135,7 @@ export function Tracks() {
                                 <Label className="text-nowrap">Sort by:</Label>
                                 <Select
                                     value={sort}
-                                    onValueChange={(value) => setParam("sort", value)}
+                                    onValueChange={handleSortChange}
                                     data-testid="sort-select"
                                 >
                                     <SelectTrigger>
@@ -148,7 +154,7 @@ export function Tracks() {
                                 <Label className="text-nowrap">Order:</Label>
                                 <Select
                                     value={order}
-                                    onValueChange={(value) => setParam("order", value)}
+                                    onValueChange={handleOrderChange}
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Order:" />
@@ -164,7 +170,7 @@ export function Tracks() {
                                 <Label className="text-nowrap">Items per page:</Label>
                                 <Select
                                     value={limit.toString()}
-                                    onValueChange={(value) => setParam("limit", value)}
+                                    onValueChange={handleLimitChange}
                                     disabled={isLoading}
                                 >
                                     <SelectTrigger>
@@ -182,7 +188,7 @@ export function Tracks() {
                             <Input
                                 placeholder="Search..."
                                 defaultValue={search}
-                                onChange={(e) => handleSearchChange(e.target.value)}
+                                onChange={handleSearchInputChange}
                                 data-testid="search-input"
                             />
                             <CreateEditModal updateData={fetchTracks} data-testid="create-track-button" />
@@ -194,7 +200,7 @@ export function Tracks() {
                         data={isLoading ? Array(limit).fill({}) : data}
                         updateData={fetchTracks}
                         isLoading={isLoading}
-                        setFilter={(filter) => setParam("genre", filter)}
+                        setFilter={handleGenreFilterChange}
                         filterOptions={genreOptions}
                     />
 
