@@ -1,19 +1,16 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
-import * as Belt from "@mobily/ts-belt";
+import { createParamsObject } from "@/lib/utils/query-params";
 
 const useQueryParams = <Params extends readonly string[]>(paramsList: Params) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const params: Record<Params[number], Belt.Option<string>> =
-    Object.fromEntries(
-      paramsList.map((param) => [param, Belt.O.fromNullable(searchParams.get(param))])
-    ) as Record<Params[number], Belt.Option<string>>;
+  const params = createParamsObject(paramsList, searchParams);
 
   const createQueryString = useCallback(
     (name: Params[number], value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
+      const params = new URLSearchParams(searchParams);
       params.set(name, value);
 
       return params.toString();
