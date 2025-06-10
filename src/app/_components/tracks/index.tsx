@@ -19,6 +19,18 @@ import { columns } from "./table/trackColumns";
 import { toast } from "sonner";
 import useTracksQueryParams from "./hooks/useTracksQueryParams";
 
+const LIMIT_OPTIONS = [5, 10, 20, 50];
+const SORT_OPTIONS = [
+    { value: "title", label: "Title" },
+    { value: "artist", label: "Artist" },
+    { value: "album", label: "Album" },
+    { value: "createdAt", label: "Created At" },
+];
+const ORDER_OPTIONS = [
+    { value: "asc", label: "Ascending" },
+    { value: "desc", label: "Descending" },
+];
+
 export function Tracks() {
     const [data, setData] = useState<Track[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -139,10 +151,11 @@ export function Tracks() {
                                         <SelectValue placeholder="Sort by:" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="title">Title</SelectItem>
-                                        <SelectItem value="artist">Artist</SelectItem>
-                                        <SelectItem value="album">Album</SelectItem>
-                                        <SelectItem value="createdAt">Created At</SelectItem>
+                                        {SORT_OPTIONS.map((option) => (
+                                            <SelectItem key={option.value} value={option.value}>
+                                                {option.label}
+                                            </SelectItem>
+                                        ))}
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -157,8 +170,11 @@ export function Tracks() {
                                         <SelectValue placeholder="Order:" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="asc">Ascending</SelectItem>
-                                        <SelectItem value="desc">Descending</SelectItem>
+                                        {ORDER_OPTIONS.map((option) => (
+                                            <SelectItem key={option.value} value={option.value}>
+                                                {option.label}
+                                            </SelectItem>
+                                        ))}
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -174,10 +190,11 @@ export function Tracks() {
                                         <SelectValue placeholder="Items per page:" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="5">5</SelectItem>
-                                        <SelectItem value="10">10</SelectItem>
-                                        <SelectItem value="20">20</SelectItem>
-                                        <SelectItem value="50">50</SelectItem>
+                                        {LIMIT_OPTIONS.map((option) => (
+                                            <SelectItem key={option} value={option.toString()}>
+                                                {option}
+                                            </SelectItem>
+                                        ))}
                                     </SelectContent>
                                 </Select>
                             </div>
