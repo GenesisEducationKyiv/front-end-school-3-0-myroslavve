@@ -83,7 +83,7 @@ export function Tracks() {
             sort,
             order,
             search: search || undefined,
-            genre: genreOptions.includes(genre) ? genre : undefined,
+            genre: genreOptions.includes(genre) && genre !== "All" ? genre : undefined,
         });
         if (result.isOk()) {
             setData(result.value.data);
