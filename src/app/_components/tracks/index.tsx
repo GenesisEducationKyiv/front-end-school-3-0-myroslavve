@@ -17,24 +17,47 @@ import AudioPlayer from "react-h5-audio-player";
 import AudioContext from "./audioContext";
 import { columns } from "./table/trackColumns";
 import { toast } from "sonner";
+import useTracksQueryParams from "./hooks/useTracksQueryParams";
+
+const LIMIT_OPTIONS = [5, 10, 20, 50];
+const SORT_OPTIONS = [
+    { value: "title", label: "Title" },
+    { value: "artist", label: "Artist" },
+    { value: "album", label: "Album" },
+    { value: "createdAt", label: "Created At" },
+];
+const ORDER_OPTIONS = [
+    { value: "asc", label: "Ascending" },
+    { value: "desc", label: "Descending" },
+];
 
 export function Tracks() {
     const [data, setData] = useState<Track[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
     const playerRef = useRef<AudioPlayer>(null);
-    const [tracksMeta, setTracksMeta] = useState<PaginatedResponse<Track>['meta'] | null>(null);
+    const [tracksMeta, setTracksMeta] = useState<
+      PaginatedResponse<Track>["meta"] | null
+    >(null);
+    const [genreOptions, setGenreOptions] = useState<string[]>(['All']);
     const totalTracks = tracksMeta?.total || 0;
     const totalPages = tracksMeta?.totalPages || 1;
 
-    // Pagination and filtering state
-    const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(10);
-    const [sort, setSort] = useState<'title' | 'artist' | 'album' | 'createdAt'>("createdAt");
-    const [order, setOrder] = useState<'asc' | 'desc'>("desc");
-    const [search, setSearch] = useState("");
-    const [genre, setGenre] = useState<string>('All');
-    const [genreOptions, setGenreOptions] = useState<string[]>(['All']);
+    const {
+    setParam,
+    page,
+    limit,
+    sort,
+    order,
+    search,
+    genre,
+    } = useTracksQueryParams();
+
+    const handleSortChange = (value: string) => setParam("sort", value);
+    const handleOrderChange = (value: string) => setParam("order", value);
+    const handleLimitChange = (value: string) => setParam("limit", value);
+    const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => handleSearchChange(e.target.value);
+    const handleGenreFilterChange = (filter: string) => setParam("genre", filter);
 
     useEffect(() => {
         const fetchGenres = async () => {
@@ -72,7 +95,7 @@ export function Tracks() {
             sort,
             order,
             search: search || undefined,
-            genre: genre === 'All' ? undefined : genre,
+            genre: genreOptions.includes(genre) && genre !== "All" ? genre : undefined,
         });
         if (result.isOk()) {
             setData(result.value.data);
@@ -82,25 +105,25 @@ export function Tracks() {
             console.error("Failed to fetch tracks:", result.error);
         }
         setIsLoading(false);
-    }, [page, limit, sort, order, search, genre]);
+    }, [page, limit, sort, order, search, genre, genreOptions]);
 
     useEffect(() => {
         fetchTracks();
     }, [fetchTracks]);
 
     const handleSearchChange = debounce((value: string) => {
-        setSearch(value);
+        setParam("search", value);
     }, 300);
 
     const handlePrevPage = () => {
         if (page > 1) {
-            setPage(page - 1);
+            setParam("page", (page - 1).toString());
         }
     };
 
     const handleNextPage = () => {
         if (page < totalPages) {
-            setPage(page + 1);
+            setParam("page", (page + 1).toString());
         }
     };
 
@@ -121,17 +144,18 @@ export function Tracks() {
                                 <Label className="text-nowrap">Sort by:</Label>
                                 <Select
                                     value={sort}
-                                    onValueChange={(value) => setSort(value as 'title' | 'artist' | 'album' | 'createdAt')}
+                                    onValueChange={handleSortChange}
                                     data-testid="sort-select"
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Sort by:" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="title">Title</SelectItem>
-                                        <SelectItem value="artist">Artist</SelectItem>
-                                        <SelectItem value="album">Album</SelectItem>
-                                        <SelectItem value="createdAt">Created At</SelectItem>
+                                        {SORT_OPTIONS.map((option) => (
+                                            <SelectItem key={option.value} value={option.value}>
+                                                {option.label}
+                                            </SelectItem>
+                                        ))}
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -140,14 +164,17 @@ export function Tracks() {
                                 <Label className="text-nowrap">Order:</Label>
                                 <Select
                                     value={order}
-                                    onValueChange={(value) => setOrder(value as 'asc' | 'desc')}
+                                    onValueChange={handleOrderChange}
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Order:" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="asc">Ascending</SelectItem>
-                                        <SelectItem value="desc">Descending</SelectItem>
+                                        {ORDER_OPTIONS.map((option) => (
+                                            <SelectItem key={option.value} value={option.value}>
+                                                {option.label}
+                                            </SelectItem>
+                                        ))}
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -156,17 +183,18 @@ export function Tracks() {
                                 <Label className="text-nowrap">Items per page:</Label>
                                 <Select
                                     value={limit.toString()}
-                                    onValueChange={(value) => setLimit(Number(value))}
+                                    onValueChange={handleLimitChange}
                                     disabled={isLoading}
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Items per page:" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="5">5</SelectItem>
-                                        <SelectItem value="10">10</SelectItem>
-                                        <SelectItem value="20">20</SelectItem>
-                                        <SelectItem value="50">50</SelectItem>
+                                        {LIMIT_OPTIONS.map((option) => (
+                                            <SelectItem key={option} value={option.toString()}>
+                                                {option}
+                                            </SelectItem>
+                                        ))}
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -174,7 +202,7 @@ export function Tracks() {
                             <Input
                                 placeholder="Search..."
                                 defaultValue={search}
-                                onChange={(e) => handleSearchChange(e.target.value)}
+                                onChange={handleSearchInputChange}
                                 data-testid="search-input"
                             />
                             <CreateEditModal updateData={fetchTracks} data-testid="create-track-button" />
@@ -186,7 +214,7 @@ export function Tracks() {
                         data={isLoading ? Array(limit).fill({}) : data}
                         updateData={fetchTracks}
                         isLoading={isLoading}
-                        setFilter={setGenre}
+                        setFilter={handleGenreFilterChange}
                         filterOptions={genreOptions}
                     />
 
