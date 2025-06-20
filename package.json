@@ -5,10 +5,12 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start:next": "next start",
+    "start:next": "next start", 
     "start": "npm run build && npm run start:next",
     "lint": "next lint",
-    "test": "vitest"
+    "test": "vitest",
+    "test-e2e": "playwright test",
+    "test-e2e-ui": "playwright test --ui"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
@@ -39,6 +41,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1.53.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
