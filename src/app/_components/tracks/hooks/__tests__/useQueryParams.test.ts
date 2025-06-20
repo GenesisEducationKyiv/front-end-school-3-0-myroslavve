@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
-import useQueryParams from './useQueryParams'
+import useQueryParams from '../useQueryParams'
 import * as Belt from '@mobily/ts-belt'
 import { createParamsObject } from '@/lib/utils/query-params'
 import { ReadonlyURLSearchParams, useSearchParams, useRouter } from 'next/navigation'

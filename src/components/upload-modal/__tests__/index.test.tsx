@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
-import UploadModal from '.'
-import { Button } from '../ui/button'
+import UploadModal from '..'
+import { Button } from '../../ui/button'
 
 describe('UploadModal', () => {
   it('should render correctly', () => {
