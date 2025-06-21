@@ -23,17 +23,28 @@ export async function apiFetch<T>(
         requestBody = body instanceof FormData ? body : JSON.stringify(body);
     }
 
-    const response = await fetch(`${API_URL}${endpoint}`, {
-        method,
-        headers: { ...defaultHeaders, ...headers },
-        body: requestBody,
-    });
+    let response: Response;
+    let json: any;
+
+    try {
+        response = await fetch(`${API_URL}${endpoint}`, {
+            method,
+            headers: { ...defaultHeaders, ...headers },
+            body: requestBody,
+        });
+    } catch (error) {
+        return err(new Error(error instanceof Error ? error.message : 'Network error occurred'));
+    }
 
     if (response.status === 204 || method === 'DELETE' && response.ok) {
         return ok(undefined as T);
     }
 
-    const json = await response.json();
+    try {
+        json = await response.json();
+    } catch (error) {
+        return err(new Error('Failed to parse response JSON'));
+    }
 
     if (!response.ok) {
         return err(new Error(json.error || `Failed to ${method.toLowerCase()} ${endpoint}`));
