@@ -48,7 +48,7 @@ describe('UploadModal', () => {
     fireEvent.change(input, { target: { files: [file] } })
     fireEvent.click(screen.getByTestId('upload-button'))
 
-    expect(screen.findByText('File must be a valid MP3 or WAV file')).resolves.toBeDefined()
+    await expect(screen.findByText('File must be a valid MP3 or WAV file')).resolves.toBeDefined()
   })
 
   it('should show delete button when file is uploaded', () => {
