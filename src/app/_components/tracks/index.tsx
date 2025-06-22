@@ -9,15 +9,16 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { STORAGE_URL } from "@/constants";
 import { getGenres } from "@/lib/api/genres";
-import { getTracks } from "@/lib/api/tracks";
 import { debounce } from "@/lib/utils/input";
-import { PaginatedResponse, Track } from "@/lib/api/schemas";
+import { Track } from "@/lib/api/schemas";
 import { useCallback, useEffect, useRef, useState } from "react";
 import AudioPlayer from "react-h5-audio-player";
 import AudioContext from "./audioContext";
 import { columns } from "./table/trackColumns";
 import { toast } from "sonner";
 import useTracksQueryParams from "./hooks/useTracksQueryParams";
+import useTracks from "./hooks/useTracks";
+import { useQueryClient } from "@tanstack/react-query";
 
 const LIMIT_OPTIONS = [5, 10, 20, 50];
 const SORT_OPTIONS = [
@@ -32,27 +33,26 @@ const ORDER_OPTIONS = [
 ];
 
 export function Tracks() {
-    const [data, setData] = useState<Track[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const queryClient = useQueryClient();
     const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
     const playerRef = useRef<AudioPlayer>(null);
-    const [tracksMeta, setTracksMeta] = useState<
-      PaginatedResponse<Track>["meta"] | null
-    >(null);
     const [genreOptions, setGenreOptions] = useState<string[]>(['All']);
+
+    const {
+        setParam,
+        page,
+        limit,
+        sort,
+        order,
+        search,
+    } = useTracksQueryParams();
+
+    const { tracks: data, tracksMeta, isLoading } = useTracks(genreOptions);
+    
     const totalTracks = tracksMeta?.total || 0;
     const totalPages = tracksMeta?.totalPages || 1;
 
-    const {
-    setParam,
-    page,
-    limit,
-    sort,
-    order,
-    search,
-    genre,
-    } = useTracksQueryParams();
-
+    const updateTracks = () => queryClient.invalidateQueries({ queryKey: ["tracks"] });
     const handleSortChange = (value: string) => setParam("sort", value);
     const handleOrderChange = (value: string) => setParam("order", value);
     const handleLimitChange = (value: string) => setParam("limit", value);
@@ -86,30 +86,6 @@ export function Tracks() {
         }
         playerRef.current?.audio.current?.play();
     };
-
-    const fetchTracks = useCallback(async () => {
-        setIsLoading(true);
-        const result = await getTracks({
-            page,
-            limit,
-            sort,
-            order,
-            search: search || undefined,
-            genre: genreOptions.includes(genre) && genre !== "All" ? genre : undefined,
-        });
-        if (result.isOk()) {
-            setData(result.value.data);
-            setTracksMeta(result.value.meta);
-        } else {
-            toast.error("Failed to fetch tracks");
-            console.error("Failed to fetch tracks:", result.error);
-        }
-        setIsLoading(false);
-    }, [page, limit, sort, order, search, genre, genreOptions]);
-
-    useEffect(() => {
-        fetchTracks();
-    }, [fetchTracks]);
 
     const handleSearchChange = debounce((value: string) => {
         setParam("search", value);
@@ -205,14 +181,14 @@ export function Tracks() {
                                 onChange={handleSearchInputChange}
                                 data-testid="search-input"
                             />
-                            <CreateEditModal updateData={fetchTracks} data-testid="create-track-button" />
+                            <CreateEditModal updateData={updateTracks} data-testid="create-track-button" />
                         </div>
                     </div>
 
                     <DataTable
                         columns={columns}
                         data={isLoading ? Array(limit).fill({}) : data}
-                        updateData={fetchTracks}
+                        updateData={updateTracks}
                         isLoading={isLoading}
                         setFilter={handleGenreFilterChange}
                         filterOptions={genreOptions}
