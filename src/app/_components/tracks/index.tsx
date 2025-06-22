@@ -15,8 +15,8 @@ import AudioPlayer from "react-h5-audio-player";
 import AudioContext from "./audioContext";
 import { columns } from "./table/trackColumns";
 import useTracksQueryParams from "./hooks/useTracksQueryParams";
-import useTracks from "./hooks/useTracks";
-import useGenres from "./hooks/useGenres";
+import useTracks from "../../../hooks/tracks/useTracks";
+import useGenres from "../../../hooks/genres/useGenres";
 import { useQueryClient } from "@tanstack/react-query";
 
 const LIMIT_OPTIONS = [5, 10, 20, 50];
@@ -168,7 +168,7 @@ export function Tracks() {
                                 onChange={handleSearchInputChange}
                                 data-testid="search-input"
                             />
-                            <CreateEditModal updateData={updateTracks} data-testid="create-track-button" />
+                            <CreateEditModal data-testid="create-track-button" />
                         </div>
                     </div>
 

@@ -1,6 +1,6 @@
 import { getTracks } from "@/lib/api/tracks";
 import { useQuery } from "@tanstack/react-query";
-import useTracksQueryParams from "./useTracksQueryParams";
+import useTracksQueryParams from "../../app/_components/tracks/hooks/useTracksQueryParams";
 import { toast } from "sonner";
 
 const useTracks = (genreOptions: string[] = ['All']) => {
