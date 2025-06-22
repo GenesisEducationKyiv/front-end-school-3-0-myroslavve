@@ -6,33 +6,26 @@ import { Button } from "@/components/ui/button"
 
 import DeleteButton from "@/components/delete-button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdownMenu"
-import { deleteTracks } from "@/lib/api/tracks"
 import { Track } from "@/lib/api/schemas"
 import { Row } from "@tanstack/react-table"
 import { useState } from "react"
-import { toast } from "sonner"
+import useDeleteTracks from "@/hooks/tracks/useDeleteTracks"
 
 interface ActionHeaderProps {
     rows: Row<Track>[]
-    updateData: () => void
     removeSelectionRows: () => void
     isLoading: boolean
 }
 
-export default function ActionHeader({ rows, updateData, removeSelectionRows, isLoading }: ActionHeaderProps) {
+export default function ActionHeader({ rows, removeSelectionRows, isLoading }: ActionHeaderProps) {
     const [isOpen, setIsOpen] = useState(false)
+    const { mutate: deleteTracks } = useDeleteTracks(() => {
+        setIsOpen(false)
+        removeSelectionRows()
+    })
 
     const handleDelete = async () => {
-        const result = await deleteTracks(rows.map(row => row.original.id))
-        if (result.isOk()) {
-            setIsOpen(false)
-            await updateData()
-            removeSelectionRows()
-            toast.success("Tracks deleted successfully")
-        } else {
-            console.error("Failed to delete tracks:", result.error)
-            toast.error("Failed to delete tracks")
-        }
+        deleteTracks(rows.map(row => row.original.id))
     }
 
     return (

@@ -6,7 +6,7 @@ import { toast } from "sonner";
 const useTracks = (genreOptions: string[] = ['All']) => {
     const { page, limit, sort, order, search, genre } = useTracksQueryParams();
 
-    const { data, isLoading, error } = useQuery({
+    const { data, isLoading, isFetching, error } = useQuery({
         queryKey: ["tracks", page, limit, sort, order, search, genre],
         queryFn: async () => {
             const result = await getTracks({ 
@@ -30,7 +30,7 @@ const useTracks = (genreOptions: string[] = ['All']) => {
     return { 
         tracks: data?.data || [], 
         tracksMeta: data?.meta || null, 
-        isLoading, 
+        isLoading: isLoading || isFetching, 
         error,
     };
 };
