@@ -8,16 +8,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { STORAGE_URL } from "@/constants";
-import { getGenres } from "@/lib/api/genres";
 import { debounce } from "@/lib/utils/input";
 import { Track } from "@/lib/api/schemas";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import AudioPlayer from "react-h5-audio-player";
 import AudioContext from "./audioContext";
 import { columns } from "./table/trackColumns";
-import { toast } from "sonner";
 import useTracksQueryParams from "./hooks/useTracksQueryParams";
 import useTracks from "./hooks/useTracks";
+import useGenres from "./hooks/useGenres";
 import { useQueryClient } from "@tanstack/react-query";
 
 const LIMIT_OPTIONS = [5, 10, 20, 50];
@@ -36,7 +35,6 @@ export function Tracks() {
     const queryClient = useQueryClient();
     const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
     const playerRef = useRef<AudioPlayer>(null);
-    const [genreOptions, setGenreOptions] = useState<string[]>(['All']);
 
     const {
         setParam,
@@ -47,6 +45,9 @@ export function Tracks() {
         search,
     } = useTracksQueryParams();
 
+    const { genres } = useGenres();
+    const genreOptions = ['All', ...(genres || [])];
+    
     const { tracks: data, tracksMeta, isLoading } = useTracks(genreOptions);
     
     const totalTracks = tracksMeta?.total || 0;
@@ -58,20 +59,6 @@ export function Tracks() {
     const handleLimitChange = (value: string) => setParam("limit", value);
     const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => handleSearchChange(e.target.value);
     const handleGenreFilterChange = (filter: string) => setParam("genre", filter);
-
-    useEffect(() => {
-        const fetchGenres = async () => {
-            const genres = await getGenres();
-            if (genres.isOk()) {
-                setGenreOptions(['All', ...genres.value]);
-            } else {
-                toast.error("Failed to fetch genres");
-                console.error("Failed to fetch genres:", genres.error);
-            }
-        };
-
-        fetchGenres();
-    }, []);
 
     const pause = () => {
         if (currentTrack) {

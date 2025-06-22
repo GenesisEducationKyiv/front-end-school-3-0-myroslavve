@@ -1,15 +1,15 @@
 "use client"
 
-import { getGenres } from "@/lib/api/genres"
 import { createTrack, updateTrack } from "@/lib/api/tracks"
 import { isValidImageUrl } from "@/lib/utils/image"
 import { Track } from "@/lib/api/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Plus, X } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
+import useGenres from "@/app/_components/tracks/hooks/useGenres"
 import { Badge } from "../ui/badge"
 import { Button } from "../ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
@@ -41,8 +41,7 @@ interface CreateEditModalProps {
 
 export default function CreateEditModal({ track, customButton, updateData, onClose }: CreateEditModalProps) {
     const isEdit = track !== undefined;
-    const [availableGenres, setAvailableGenres] = useState<string[]>([]);
-    const [isGenresLoading, setIsGenresLoading] = useState(false);
+    const { genres, isLoading: isGenresLoading } = useGenres();
 
     const [open, setOpen] = useState(false)
     const form = useForm<TrackFormValues>({
@@ -55,24 +54,6 @@ export default function CreateEditModal({ track, customButton, updateData, onClo
             coverImage: track?.coverImage ?? "",
         },
     })
-
-    useEffect(() => {
-        const loadGenres = async () => {
-            setIsGenresLoading(true);
-
-            const genres = await getGenres();
-            if (genres.isOk()) {
-                setAvailableGenres(genres.value);
-            } else {
-                console.error("Failed to load genres:", genres.error)
-                toast.error("Failed to load genres")
-            }
-            
-            setIsGenresLoading(false);
-        };
-
-        loadGenres();
-    }, []);
 
     const onSubmit = async (data: TrackFormValues) => {
         if (isEdit) {
@@ -205,7 +186,7 @@ export default function CreateEditModal({ track, customButton, updateData, onClo
                                                     <div className="flex flex-col gap-1 max-h-60 overflow-y-auto overflow-x-hidden scrollbar-thin" onWheel={(e) => e.stopPropagation()}>
                                                         {isGenresLoading ? (
                                                             <p className="text-center py-2">Loading genres...</p>
-                                                        ) : availableGenres
+                                                        ) : (genres || [])
                                                             .filter(genre => !field.value.includes(genre))
                                                             .map((genre, index) => (
                                                                 <Button
@@ -219,7 +200,7 @@ export default function CreateEditModal({ track, customButton, updateData, onClo
                                                                     {genre}
                                                                 </Button>
                                                             ))}
-                                                        {!isGenresLoading && availableGenres.filter(genre => !field.value.includes(genre)).length === 0 && (
+                                                        {!isGenresLoading && (genres || []).filter(genre => !field.value.includes(genre)).length === 0 && (
                                                             <p className="text-center py-2 text-muted-foreground">All genres selected</p>
                                                         )}
                                                     </div>
