@@ -1,21 +1,21 @@
 "use client"
 
-import { createTrack, updateTrack } from "@/lib/api/tracks"
 import { isValidImageUrl } from "@/lib/utils/image"
 import { Track } from "@/lib/api/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Plus, X } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { toast } from "sonner"
 import { z } from "zod"
-import useGenres from "@/app/_components/tracks/hooks/useGenres"
+import useGenres from "@/hooks/genres/useGenres"
 import { Badge } from "../ui/badge"
 import { Button } from "../ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Input } from "../ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
+import useCreateTrack from "@/hooks/tracks/useCreateTrack"
+import useUpdateTrack from "@/hooks/tracks/useUpdateTrack"
 
 const trackFormSchema = z.object({
     title: z.string().min(1, { message: "Title is required" }),
@@ -35,13 +35,20 @@ type TrackFormValues = z.infer<typeof trackFormSchema>
 interface CreateEditModalProps {
     track?: Track
     customButton?: React.ReactNode
-    updateData: () => void
     onClose?: () => void
 }
 
-export default function CreateEditModal({ track, customButton, updateData, onClose }: CreateEditModalProps) {
+export default function CreateEditModal({ track, customButton, onClose }: CreateEditModalProps) {
     const isEdit = track !== undefined;
     const { genres, isLoading: isGenresLoading } = useGenres();
+   
+    const closeModal = () => {
+        onOpenChange(false)
+        form.reset()
+    }
+
+    const { mutate: createTrack } = useCreateTrack(closeModal);
+    const { mutate: updateTrack } = useUpdateTrack(closeModal);
 
     const [open, setOpen] = useState(false)
     const form = useForm<TrackFormValues>({
@@ -57,30 +64,10 @@ export default function CreateEditModal({ track, customButton, updateData, onClo
 
     const onSubmit = async (data: TrackFormValues) => {
         if (isEdit) {
-            const result = await updateTrack(track?.id, data)
-            if (result.isOk()) {
-                toast.success("Track updated successfully")
-            } else {
-                console.error("Failed to update track:", result.error)
-                toast.error("Failed to update track")
-            }
+            updateTrack({ id: track?.id, track: data })
         } else {
-            const result = await createTrack(data)
-            if (result.isOk()) {
-                toast.success("Track created successfully")
-            } else {
-                console.error("Failed to create track:", result.error)
-                toast.error("Failed to create track")
-            }
+            createTrack(data)
         }
-
-        updateData()
-        closeModal()
-    }
-
-    const closeModal = () => {
-        onOpenChange(false)
-        form.reset()
     }
 
     const onOpenChange = (open: boolean) => {
