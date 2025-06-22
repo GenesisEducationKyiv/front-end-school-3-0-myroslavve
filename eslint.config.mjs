@@ -10,7 +10,8 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript", "plugin:vitest/recommended"),
+  ...compat.plugins("@tanstack/query"),
+  ...compat.extends("next/core-web-vitals", "next/typescript", "plugin:@tanstack/eslint-plugin-query/recommended", "plugin:vitest/recommended"),
 ];
 
 export default eslintConfig;
