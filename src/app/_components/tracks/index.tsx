@@ -9,15 +9,14 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { STORAGE_URL } from "@/constants";
 import { debounce } from "@/lib/utils/input";
-import { Track } from "@/lib/api/schemas";
-import { useCallback, useRef, useState } from "react";
+import { useRef } from "react";
 import AudioPlayer from "react-h5-audio-player";
-import AudioContext from "./audioContext";
 import { columns } from "./table/trackColumns";
 import useTracksQueryParams from "./hooks/useTracksQueryParams";
 import useTracks from "../../../hooks/tracks/useTracks";
 import useGenres from "../../../hooks/genres/useGenres";
 import { useQueryClient } from "@tanstack/react-query";
+import { usePlayerStore } from "@/stores/player-store";
 
 const LIMIT_OPTIONS = [5, 10, 20, 50];
 const SORT_OPTIONS = [
@@ -33,8 +32,12 @@ const ORDER_OPTIONS = [
 
 export function Tracks() {
     const queryClient = useQueryClient();
-    const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
     const playerRef = useRef<AudioPlayer>(null);
+    const {
+        currentTrack,
+        isPlaying,
+        setIsPlaying,
+    } = usePlayerStore();
 
     const {
         setParam,
@@ -60,20 +63,6 @@ export function Tracks() {
     const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => handleSearchChange(e.target.value);
     const handleGenreFilterChange = (filter: string) => setParam("genre", filter);
 
-    const pause = () => {
-        if (currentTrack) {
-            setCurrentTrack({ ...currentTrack, isPlaying: false });
-        }
-        playerRef.current?.audio.current?.pause();
-    };
-
-    const play = () => {
-        if (currentTrack) {
-            setCurrentTrack({ ...currentTrack, isPlaying: true });
-        }
-        playerRef.current?.audio.current?.play();
-    };
-
     const handleSearchChange = debounce((value: string) => {
         setParam("search", value);
     }, 300);
@@ -90,15 +79,8 @@ export function Tracks() {
         }
     };
 
-    const handlePlayingChange = useCallback((isPlaying: boolean) => {
-        if (currentTrack && currentTrack.isPlaying !== isPlaying) {
-            setCurrentTrack(prev => prev ? { ...prev, isPlaying } : null);
-        }
-    }, [currentTrack]);
-
     return (
         <>
-            <AudioContext.Provider value={{ track: currentTrack, setTrack: setCurrentTrack, pause, play }}>
                 <div className="w-full">
                     <div className="flex items-center justify-between py-4">
                         <h2 className="text-xl font-semibold" data-testid="tracks-header">Tracks</h2>
@@ -214,13 +196,13 @@ export function Tracks() {
                         src={`${STORAGE_URL}/${currentTrack?.audioFile}`}
                         playerRef={playerRef}
                         hidden={currentTrack == null}
-                        setIsPlaying={handlePlayingChange}
+                        isPlaying={isPlaying}
+                        setIsPlaying={setIsPlaying}
                         title={currentTrack?.title || ""}
                         artist={currentTrack?.artist || ""}
                         cover={currentTrack?.coverImage || ""}
                     />
                 </div>
-            </AudioContext.Provider>
         </>
     );
 } 
