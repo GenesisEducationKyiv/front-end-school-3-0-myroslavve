@@ -4,7 +4,6 @@ import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/co
 import { EllipsisIcon, UploadIcon } from "lucide-react"
 
 import { DropdownMenu } from "@/components/ui/dropdownMenu"
-import { deleteTrack, deleteTrackFile, uploadTrack } from "@/lib/api/tracks"
 import { Track } from "@/lib/api/schemas"
 import { Row } from "@tanstack/react-table"
 import { EditIcon } from "lucide-react"
@@ -12,50 +11,32 @@ import { useState } from "react"
 
 import DeleteButton from "@/components/delete-button"
 import UploadModal from "@/components/upload-modal"
-import { toast } from "sonner"
+import useUploadTrack from "@/hooks/tracks/useUploadTrack"
+import useDeleteTrack from "@/hooks/tracks/useDeleteTrack"
+import useDeleteTrackFile from "@/hooks/tracks/useDeleteTrackFile"
 
 interface ActionCellProps {
     row: Row<Track>
-    updateData: () => void
     isLoading: boolean
 }
 
-export default function ActionCell({ row, updateData, isLoading }: ActionCellProps) {
+export default function ActionCell({ row, isLoading }: ActionCellProps) {
     const [isOpen, setIsOpen] = useState(false)
+    const closeModal = () => setIsOpen(false)
+    const { mutate: deleteTrack } = useDeleteTrack(closeModal)
+    const { mutate: uploadTrack } = useUploadTrack(closeModal)
+    const { mutate: deleteTrackFile } = useDeleteTrackFile(closeModal)
 
     const handleUpload = async (file: File) => {
-        const result = await uploadTrack(row.original.id, file)
-        if (result.isOk()) {
-            setIsOpen(false)
-            toast.success("Track uploaded successfully")
-            await updateData()
-        } else {
-            console.error("Failed to upload track:", result.error)
-            toast.error("Failed to upload track")
-        }
+        uploadTrack({ id: row.original.id, file })
     }
 
     const handleDelete = async () => {
-        const result = await deleteTrack(row.original.id)
-        if (result.isOk()) {
-            setIsOpen(false)
-            toast.success("Track deleted successfully")
-            await updateData()
-        } else {
-            console.error("Failed to delete track:", result.error)
-            toast.error("Failed to delete track")
-        }
+        deleteTrack(row.original.id)
     }
 
     const handleDeleteFile = async () => {
-        const result = await deleteTrackFile(row.original.id)
-        if (result.isOk()) {
-            toast.success("Track file deleted successfully")
-            await updateData()
-        } else {
-            console.error("Failed to delete track file:", result.error)
-            toast.error("Failed to delete track file")
-        }
+        deleteTrackFile(row.original.id)
     }
 
     return (
@@ -88,7 +69,7 @@ export default function ActionCell({ row, updateData, isLoading }: ActionCellPro
                             <EditIcon className="w-4 h-4" />
                             Edit
                         </Button>
-                    } updateData={updateData} onClose={() => setIsOpen(false)} />
+                    } onClose={() => setIsOpen(false)} />
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild onSelect={(e) => { e.preventDefault() }}>
                     <DeleteButton

@@ -1,3 +1,4 @@
+import { debounce } from "@/lib/utils/input";
 import useQueryParams from "./useQueryParams";
 import * as Belt from "@mobily/ts-belt";
 
@@ -57,7 +58,24 @@ const useTracksQueryParams = () => {
         Belt.O.getWithDefault(paramDefaults.genre)
     );
 
-    return { setParam, page, limit, sort, order, search, genre };
+    const setSearch = debounce((search: string) => setParam("search", search), 300);
+    const setGenre = (genre: string) => setParam("genre", genre);
+    const setSort = (sort: SortParameter) => setParam("sort", sort);
+    const setOrder = (order: OrderParameter) => setParam("order", order);
+    const setPage = (page: string) => setParam("page", page);
+    const setLimit = (limit: string) => setParam("limit", limit);
+
+
+    const prevPage = () => {
+        setParam("page", (page - 1).toString());
+    };
+
+    const nextPage = () => {
+        setParam("page", (page + 1).toString());
+    };
+
+
+    return { setParam, page, limit, sort, order, search, genre, setSearch, setGenre, setSort, setOrder, setPage, setLimit, prevPage, nextPage };
 };
 
 export default useTracksQueryParams;

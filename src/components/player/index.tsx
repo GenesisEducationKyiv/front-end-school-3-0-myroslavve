@@ -4,20 +4,30 @@ import Image from "next/image";
 import AudioPlayer from "react-h5-audio-player";
 import 'react-h5-audio-player/lib/styles.css';
 import './index.css';
+import { useEffect } from "react";
 
 interface PlayerProps {
     id: string;
     src: string;
     playerRef: React.RefObject<AudioPlayer | null>;
     hidden?: boolean;
+    isPlaying: boolean;
     setIsPlaying: (isPlaying: boolean) => void;
     title: string;
     artist: string;
     cover: string;
 }
 
-export default function Player({ id, src, playerRef, hidden, setIsPlaying, title, artist, cover }: PlayerProps) {
+export default function Player({ id, src, playerRef, hidden, isPlaying, setIsPlaying, title, artist, cover }: PlayerProps) {
     const hasMetadata = title && artist && cover;
+
+    useEffect(() => {
+        if (isPlaying) {
+            playerRef.current?.audio.current?.play();
+        } else {
+            playerRef.current?.audio.current?.pause();
+        }
+    }, [isPlaying, playerRef]);
 
     return (
         <div className={cn("rounded-lg border-1 border-border overflow-hidden", hidden && "hidden")} data-testid={`audio-player-${id}`}>
