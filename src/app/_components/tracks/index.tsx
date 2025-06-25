@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { STORAGE_URL } from "@/constants";
-import { debounce } from "@/lib/utils/input";
 import { useRef } from "react";
 import AudioPlayer from "react-h5-audio-player";
 import { columns } from "./table/trackColumns";
@@ -38,46 +37,31 @@ export function Tracks() {
         isPlaying,
         setIsPlaying,
     } = usePlayerStore();
-
-    const {
-        setParam,
-        page,
-        limit,
-        sort,
-        order,
-        search,
-    } = useTracksQueryParams();
-
+    
     const { genres = [] } = useGenres();
     const genreOptions = ['All', ...genres];
-    
     const { tracks: data, tracksMeta, isLoading } = useTracks(genreOptions);
     
     const totalTracks = tracksMeta?.total || 0;
     const totalPages = tracksMeta?.totalPages || 1;
 
+    const {
+        page,
+        limit,
+        sort,
+        order,
+        search,
+        setSearch,
+        setGenre,
+        setSort,
+        setOrder,
+        setLimit,
+        prevPage,
+        nextPage,
+    } = useTracksQueryParams();
+
     const updateTracks = () => queryClient.invalidateQueries({ queryKey: ["tracks"] });
-    const handleSortChange = (value: string) => setParam("sort", value);
-    const handleOrderChange = (value: string) => setParam("order", value);
-    const handleLimitChange = (value: string) => setParam("limit", value);
-    const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => handleSearchChange(e.target.value);
-    const handleGenreFilterChange = (filter: string) => setParam("genre", filter);
-
-    const handleSearchChange = debounce((value: string) => {
-        setParam("search", value);
-    }, 300);
-
-    const handlePrevPage = () => {
-        if (page > 1) {
-            setParam("page", (page - 1).toString());
-        }
-    };
-
-    const handleNextPage = () => {
-        if (page < totalPages) {
-            setParam("page", (page + 1).toString());
-        }
-    };
+    const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
 
     return (
         <>
@@ -89,7 +73,7 @@ export function Tracks() {
                                 <Label className="text-nowrap">Sort by:</Label>
                                 <Select
                                     value={sort}
-                                    onValueChange={handleSortChange}
+                                    onValueChange={setSort}
                                     data-testid="sort-select"
                                 >
                                     <SelectTrigger>
@@ -109,7 +93,7 @@ export function Tracks() {
                                 <Label className="text-nowrap">Order:</Label>
                                 <Select
                                     value={order}
-                                    onValueChange={handleOrderChange}
+                                    onValueChange={setOrder}
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Order:" />
@@ -128,7 +112,7 @@ export function Tracks() {
                                 <Label className="text-nowrap">Items per page:</Label>
                                 <Select
                                     value={limit.toString()}
-                                    onValueChange={handleLimitChange}
+                                    onValueChange={setLimit}
                                     disabled={isLoading}
                                 >
                                     <SelectTrigger>
@@ -159,7 +143,7 @@ export function Tracks() {
                         data={isLoading ? Array(limit).fill({}) : data}
                         updateData={updateTracks}
                         isLoading={isLoading}
-                        setFilter={handleGenreFilterChange}
+                        setFilter={setGenre}
                         filterOptions={genreOptions}
                     />
 
@@ -170,7 +154,7 @@ export function Tracks() {
                         <div className="flex items-center gap-2">
                             <Button
                                 variant="outline"
-                                onClick={handlePrevPage}
+                                onClick={prevPage}
                                 disabled={page <= 1}
                                 data-testid="pagination-prev"
                             >
@@ -181,7 +165,7 @@ export function Tracks() {
                             </div>
                             <Button
                                 variant="outline"
-                                onClick={handleNextPage}
+                                onClick={nextPage}
                                 disabled={page >= totalPages}
                                 data-testid="pagination-next"
                             >
