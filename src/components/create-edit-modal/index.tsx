@@ -40,7 +40,7 @@ interface CreateEditModalProps {
 
 export default function CreateEditModal({ track, customButton, onClose }: CreateEditModalProps) {
     const isEdit = track !== undefined;
-    const { genres, isLoading: isGenresLoading } = useGenres();
+    const { genres = [], isLoading: isGenresLoading } = useGenres();
    
     const closeModal = () => {
         onOpenChange(false)
@@ -173,23 +173,25 @@ export default function CreateEditModal({ track, customButton, onClose }: Create
                                                     <div className="flex flex-col gap-1 max-h-60 overflow-y-auto overflow-x-hidden scrollbar-thin" onWheel={(e) => e.stopPropagation()}>
                                                         {isGenresLoading ? (
                                                             <p className="text-center py-2">Loading genres...</p>
-                                                        ) : (genres || [])
+                                                        ) : genres
                                                             .filter(genre => !field.value.includes(genre))
                                                             .map((genre, index) => (
-                                                                <Button
-                                                                    key={index}
-                                                                    variant="ghost"
-                                                                    className="justify-start font-normal"
-                                                                    onClick={() => {
-                                                                        field.onChange([...field.value, genre]);
-                                                                    }}
-                                                                >
-                                                                    {genre}
-                                                                </Button>
+                                                                <>
+                                                                    <Button
+                                                                        key={index}
+                                                                        variant="ghost"
+                                                                        className="justify-start font-normal"
+                                                                        onClick={() => {
+                                                                            field.onChange([...field.value, genre]);
+                                                                        }}
+                                                                    >
+                                                                        {genre}
+                                                                    </Button>
+                                                                    {genres.filter(genre => !field.value.includes(genre)).length === 0 && (
+                                                                        <p className="text-center py-2 text-muted-foreground">All genres selected</p>
+                                                                    )}
+                                                                </>
                                                             ))}
-                                                        {!isGenresLoading && (genres || []).filter(genre => !field.value.includes(genre)).length === 0 && (
-                                                            <p className="text-center py-2 text-muted-foreground">All genres selected</p>
-                                                        )}
                                                     </div>
                                                 </PopoverContent>
                                             </Popover>

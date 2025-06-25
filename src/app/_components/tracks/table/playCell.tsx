@@ -11,21 +11,21 @@ interface PlayCellProps {
 export default function PlayCell({ row, isLoading }: PlayCellProps) {
     const { currentTrack, setCurrentTrack, play, pause, isPlaying } = usePlayerStore();
     const isDisabled = isLoading || row.original.audioFile == null;
+    const isCurrentTrackPlaying = currentTrack?.id === row.original.id && isPlaying;
+
+    const handlePlay = () => {
+        if (isCurrentTrackPlaying) {
+            pause();
+        } else {
+            setCurrentTrack(row.original);
+            play();
+        }
+    }
 
     return <PlayButton
         backgroundImage={row.original.coverImage || "/default.png"}
-        isPlaying={(currentTrack?.id === row.original.id && isPlaying) ?? false}
+        isPlaying={isCurrentTrackPlaying}
         disabled={isDisabled}
-        onClick={() => {
-            if (currentTrack?.id === row.original.id) {
-                if (isPlaying) {
-                    pause();
-                } else {
-                    play();
-                }
-            } else {
-                setCurrentTrack(row.original);
-            }
-        }}
+        onClick={handlePlay}
     />
 }
