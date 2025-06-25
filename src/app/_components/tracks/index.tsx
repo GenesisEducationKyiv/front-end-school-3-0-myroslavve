@@ -62,6 +62,8 @@ export function Tracks() {
 
     const updateTracks = () => queryClient.invalidateQueries({ queryKey: ["tracks"] });
     const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
+    const currentPageTracksStart = data.length > 0 ? (page - 1) * limit + 1 : 0;
+    const currentPageTracksEnd = Math.min(page * limit, totalTracks);
 
     return (
         <>
@@ -149,7 +151,7 @@ export function Tracks() {
 
                     <div className="flex items-center justify-between mt-4" data-testid="pagination">
                         <div className="text-sm text-muted-foreground">
-                            Showing {data.length > 0 ? (page - 1) * limit + 1 : 0} to {Math.min(page * limit, totalTracks)} of {totalTracks} tracks
+                            Showing {currentPageTracksStart} to {currentPageTracksEnd} of {totalTracks} tracks
                         </div>
                         <div className="flex items-center gap-2">
                             <Button
