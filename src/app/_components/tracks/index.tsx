@@ -48,8 +48,8 @@ export function Tracks() {
         search,
     } = useTracksQueryParams();
 
-    const { genres } = useGenres();
-    const genreOptions = ['All', ...(genres || [])];
+    const { genres = [] } = useGenres();
+    const genreOptions = ['All', ...genres];
     
     const { tracks: data, tracksMeta, isLoading } = useTracks(genreOptions);
     

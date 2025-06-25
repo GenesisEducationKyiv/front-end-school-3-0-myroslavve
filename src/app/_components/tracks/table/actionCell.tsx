@@ -22,9 +22,10 @@ interface ActionCellProps {
 
 export default function ActionCell({ row, isLoading }: ActionCellProps) {
     const [isOpen, setIsOpen] = useState(false)
-    const { mutate: deleteTrack } = useDeleteTrack(() => setIsOpen(false))
-    const { mutate: uploadTrack } = useUploadTrack(() => setIsOpen(false))
-    const { mutate: deleteTrackFile } = useDeleteTrackFile(() => setIsOpen(false))
+    const closeModal = () => setIsOpen(false)
+    const { mutate: deleteTrack } = useDeleteTrack(closeModal)
+    const { mutate: uploadTrack } = useUploadTrack(closeModal)
+    const { mutate: deleteTrackFile } = useDeleteTrackFile(closeModal)
 
     const handleUpload = async (file: File) => {
         uploadTrack({ id: row.original.id, file })
