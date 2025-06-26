@@ -1,0 +1,25 @@
+{
+    "name": "@music-app/common",
+    "version": "1.0.0",
+    "private": true,
+    "main": "src/generated/index.ts",
+    "types": "src/generated/index.ts",
+    "scripts": {
+        "generate": "npx buf generate",
+        "lint": "npx buf lint",
+        "breaking": "npx buf breaking --against '.git#branch=main'",
+        "build": "npm run generate && tsc",
+        "clean": "rm -rf src/generated"
+    },
+    "dependencies": {
+        "@bufbuild/buf": "^1.55.1",
+        "@bufbuild/protobuf": "^1.10.0",
+        "@bufbuild/protoc-gen-es": "^2.5.2",
+        "@connectrpc/connect": "^1.4.0"
+    },
+    "devDependencies": {
+        "@connectrpc/protoc-gen-connect-es": "^1.4.0",
+        "@types/node": "^20.0.0",
+        "typescript": "^5.0.0"
+    }
+}
