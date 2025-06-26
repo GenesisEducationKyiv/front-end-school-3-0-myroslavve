@@ -1,0 +1,14 @@
+{
+  "title": "Imagine",
+  "artist": "Post Malone",
+  "album": "Harry's House",
+  "genres": [
+    "Rock",
+    "Pop"
+  ],
+  "slug": "imagine",
+  "coverImage": "https://picsum.photos/seed/Imagine/300/300",
+  "id": "1741096482744",
+  "createdAt": "2025-03-04T13:54:42.744Z",
+  "updatedAt": "2025-03-04T13:54:42.744Z"
+}
