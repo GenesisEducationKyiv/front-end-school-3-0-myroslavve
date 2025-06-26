@@ -1,0 +1,15 @@
+{
+  "title": "Peaches",
+  "artist": "Drake",
+  "album": "DAMN.",
+  "genres": [
+    "Indie",
+    "R&B",
+    "Rock"
+  ],
+  "slug": "peaches",
+  "coverImage": "https://picsum.photos/seed/Peaches/300/300",
+  "id": "1741096482739",
+  "createdAt": "2025-03-04T13:54:42.739Z",
+  "updatedAt": "2025-03-04T13:54:42.739Z"
+}
