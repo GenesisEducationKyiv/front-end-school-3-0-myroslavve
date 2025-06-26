@@ -1,0 +1,14 @@
+version: v1
+managed:
+  enabled: true
+plugins:
+  # Generate TypeScript types using local protoc-gen-es
+  - plugin: es
+    out: src/generated
+    opt:
+      - target=ts
+  # Generate Connect-ES TypeScript code
+  - plugin: connect-es
+    out: src/generated
+    opt:
+      - target=ts 

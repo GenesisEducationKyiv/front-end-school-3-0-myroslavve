@@ -1,5 +1,5 @@
 {
-  "name": "fe-school-backend",
+  "name": "@music-app/server",
   "version": "1.0.0",
   "description": "An app for managing music tracks.",
   "main": "dist/index.js",
