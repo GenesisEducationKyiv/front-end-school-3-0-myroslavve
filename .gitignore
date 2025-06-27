@@ -62,7 +62,6 @@ jspm_packages/
 .yarn-integrity
 
 # buf generated files
-packages/common/src/generated/
 packages/common/dist/
 
 # buf cache
