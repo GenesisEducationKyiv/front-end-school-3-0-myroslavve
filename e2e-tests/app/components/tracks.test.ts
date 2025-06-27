@@ -12,14 +12,14 @@ test.describe('Tracks page', () => {
     test('should filter tracks by search term', async ({ page }) => {
         await page.goto('/');
         await page.waitForSelector('[data-loading="false"]');
-        await page.fill('[data-testid="search-input"]', 'test song 1 with a long name');
+        await page.fill('[data-testid="search-input"]', 'test song 1 with a long non-existent name');
         await page.waitForTimeout(500);
-        await expect(page).toHaveURL('?search=test+song+1+with+a+long+name');
-        await expect(page.getByTestId(/track-item-\d+$/)).not.toHaveCount(10);
+        await expect(page).toHaveURL('?search=test+song+1+with+a+long+non-existent+name');
+        await expect(page.getByTestId(/track-item-\d+$/)).toHaveCount(0);
 
         await page.reload();
         await page.waitForSelector('[data-loading="false"]');
-        await expect(page.locator('[data-testid="search-input"]')).toHaveValue('test song 1 with a long name');
+        await expect(page.locator('[data-testid="search-input"]')).toHaveValue('test song 1 with a long non-existent name');
     });
 
     test('should change items per page', async ({ page }) => {
