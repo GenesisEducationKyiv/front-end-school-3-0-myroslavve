@@ -33,6 +33,8 @@ import {
   deleteTrack,
   deleteMultipleTracks,
   deleteAudioFile,
+  getTrackById,
+  saveAudioFile,
 } from "../utils/db";
 import { createSlug } from "../utils/slug";
 import type { Track as DbTrack, QueryParams as DbQueryParams } from "../types";
@@ -188,7 +190,7 @@ export const tracksServiceImpl: ServiceImpl<typeof TracksService> = {
 
   async updateTrack(req: UpdateTrackRequest) {
     try {
-      const existingTrack = await getTrackBySlug(req.id); // This should probably be getTrackById
+      const existingTrack = await getTrackById(req.id);
       if (!existingTrack) {
         throw new ConnectError("Track not found", Code.NotFound);
       }
@@ -280,21 +282,63 @@ export const tracksServiceImpl: ServiceImpl<typeof TracksService> = {
     }
   },
 
-  async *uploadTrack(req: AsyncIterable<UploadTrackRequest>) {
+  async uploadTrack(req: UploadTrackRequest) {
     try {
-      // This is a bidirectional streaming method
-      // For now, return a simple response
-      yield create(UploadTrackResponseSchema, {
-        response: {
-          case: "progress",
-          value: {
-            bytesUploaded: BigInt(0),
-            totalBytes: BigInt(100),
-            percentage: 0,
-          },
-        },
+      if (!req.trackId) {
+        throw new ConnectError('Track ID is required', Code.InvalidArgument);
+      }
+      
+      if (!req.fileName) {
+        throw new ConnectError('File name is required', Code.InvalidArgument);
+      }
+      
+      if (!req.fileData || req.fileData.length === 0) {
+        throw new ConnectError('File data is required', Code.InvalidArgument);
+      }
+      
+      // Check if track exists
+      const existingTrack = await getTrackById(req.trackId);
+      if (!existingTrack) {
+        throw new ConnectError('Track not found', Code.NotFound);
+      }
+      
+      // Convert Uint8Array to Buffer for file saving
+      const fileBuffer = Buffer.from(req.fileData);
+      
+      // Save the audio file
+      const savedFileName = await saveAudioFile(req.trackId, req.fileName, fileBuffer);
+      
+      // Update the track with the audio file reference
+      const updatedTrack = await updateTrack(req.trackId, {
+        audioFile: savedFileName
+      });
+      
+      if (!updatedTrack) {
+        throw new ConnectError('Failed to update track with audio file', Code.Internal);
+      }
+      
+      // Generate file URL (assuming files are served from /uploads)
+      const fileUrl = `/uploads/${savedFileName}`;
+      
+      return create(UploadTrackResponseSchema, {
+        track: create(TrackSchema, {
+          id: updatedTrack.id,
+          title: updatedTrack.title,
+          artist: updatedTrack.artist,
+          album: updatedTrack.album,
+          genres: updatedTrack.genres,
+          slug: updatedTrack.slug,
+          coverImage: updatedTrack.coverImage,
+          audioFile: updatedTrack.audioFile,
+          createdAt: updatedTrack.createdAt,
+          updatedAt: updatedTrack.updatedAt,
+        }),
+        fileUrl: fileUrl,
       });
     } catch (error) {
+      if (error instanceof ConnectError) {
+        throw error;
+      }
       throw new ConnectError(
         error instanceof Error ? error.message : "Failed to upload track",
         Code.Internal

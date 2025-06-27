@@ -109,40 +109,15 @@ message DeleteTracksResponse {
   repeated string failed = 2;
 }
 
-message FileChunk {
-  bytes data = 1;
-  int32 chunk_number = 2;
-  int32 total_chunks = 3;
-}
-
+// Simplified upload request for web compatibility
 message UploadTrackRequest {
-  oneof request {
-    UploadTrackMetadata metadata = 1;
-    FileChunk chunk = 2;
-  }
-}
-
-message UploadTrackMetadata {
   string track_id = 1;
   string file_name = 2;
   string content_type = 3;
-  int64 file_size = 4;
+  bytes file_data = 4;
 }
 
 message UploadTrackResponse {
-  oneof response {
-    UploadProgress progress = 1;
-    UploadComplete complete = 2;
-  }
-}
-
-message UploadProgress {
-  int64 bytes_uploaded = 1;
-  int64 total_bytes = 2;
-  float percentage = 3;
-}
-
-message UploadComplete {
   Track track = 1;
   string file_url = 2;
 }
@@ -163,6 +138,6 @@ service TracksService {
   rpc UpdateTrack(UpdateTrackRequest) returns (UpdateTrackResponse);
   rpc DeleteTrack(DeleteTrackRequest) returns (DeleteTrackResponse);
   rpc DeleteTracks(DeleteTracksRequest) returns (DeleteTracksResponse);
-  rpc UploadTrack(stream UploadTrackRequest) returns (stream UploadTrackResponse);
+  rpc UploadTrack(UploadTrackRequest) returns (UploadTrackResponse);
   rpc DeleteTrackFile(DeleteTrackFileRequest) returns (DeleteTrackFileResponse);
 }
