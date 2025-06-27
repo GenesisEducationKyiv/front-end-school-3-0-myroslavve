@@ -4,10 +4,15 @@ import multipart from '@fastify/multipart';
 import fastifyStatic from '@fastify/static';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
+import { fastifyConnectPlugin } from '@connectrpc/connect-fastify';
+import { ConnectRouter } from '@connectrpc/connect';
+import { TracksService, GenresService } from '@music-app/common';
 import path from 'path';
 import routes from './routes';
 import { initializeDb } from './utils/db';
 import config from './config';
+import { tracksServiceImpl } from './services/tracks.service';
+import { genresServiceImpl } from './services/genres.service';
 
 async function start() {
   try {
@@ -70,7 +75,15 @@ async function start() {
       }
     });
     
-    // Register routes
+    // Register Connect/gRPC services
+    await fastify.register(fastifyConnectPlugin, {
+      routes(router: ConnectRouter) {
+        router.service(TracksService, tracksServiceImpl);
+        router.service(GenresService, genresServiceImpl);
+      }
+    });
+    
+    // Register REST routes (for backward compatibility)
     await fastify.register(routes);
     
     // Start server

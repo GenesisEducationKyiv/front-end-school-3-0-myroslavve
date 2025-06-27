@@ -1,12 +1,9 @@
-version: v1
-name: buf.build/music-app/common
-deps:
-  - buf.build/googleapis/googleapis
-breaking:
-  use:
-    - FILE
+version: v2
+modules:
+  - path: proto
 lint:
   use:
     - DEFAULT
-  except:
-    - PACKAGE_VERSION_SUFFIX 
+breaking:
+  use:
+    - FILE

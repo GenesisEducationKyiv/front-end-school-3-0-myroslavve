@@ -27,8 +27,8 @@ message Track {
   string slug = 6;
   optional string cover_image = 7;
   optional string audio_file = 8;
-  google.protobuf.Timestamp created_at = 9;
-  google.protobuf.Timestamp updated_at = 10;
+  string created_at = 9;
+  string updated_at = 10;
 }
 
 message QueryParams {
