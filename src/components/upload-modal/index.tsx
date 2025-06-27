@@ -85,6 +85,7 @@ export default function UploadModal({ customButton, onUpload, onDelete, uploaded
                                                     onBlur={field.onBlur}
                                                     name={field.name}
                                                     ref={field.ref}
+                                                    data-testid="file-input"
                                                 />
                                             </label>
                                             {(field.value || uploadedFileName) && (
@@ -102,7 +103,7 @@ export default function UploadModal({ customButton, onUpload, onDelete, uploaded
                             {uploaded && (
                                 <Button type="button" variant="destructive" onClick={handleDelete} data-testid="confirm-delete">Delete</Button>
                             )}
-                            <Button type="submit">Upload</Button>
+                            <Button type="submit" data-testid="upload-button">Upload</Button>
                         </div>
                     </form>
                 </Form>

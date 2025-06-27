@@ -21,4 +21,9 @@ const getGenres = async () => {
     return validatedData;
 }
 
-export { getGenres };
+// Export for testing purposes
+const clearGenresCache = () => {
+    genresCache = null;
+};
+
+export { getGenres, clearGenresCache };
