@@ -11,7 +11,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file tracks.proto.
  */
 export const file_tracks: GenFile = /*@__PURE__*/
-  fileDesc("Cgx0cmFja3MucHJvdG8SD211c2ljLnRyYWNrcy52MSLoAQoFVHJhY2sSCgoCaWQYASABKAkSDQoFdGl0bGUYAiABKAkSDgoGYXJ0aXN0GAMgASgJEhIKBWFsYnVtGAQgASgJSACIAQESDgoGZ2VucmVzGAUgAygJEgwKBHNsdWcYBiABKAkSGAoLY292ZXJfaW1hZ2UYByABKAlIAYgBARIXCgphdWRpb19maWxlGAggASgJSAKIAQESEgoKY3JlYXRlZF9hdBgJIAEoCRISCgp1cGRhdGVkX2F0GAogASgJQggKBl9hbGJ1bUIOCgxfY292ZXJfaW1hZ2VCDQoLX2F1ZGlvX2ZpbGUilwIKC1F1ZXJ5UGFyYW1zEhEKBHBhZ2UYASABKAVIAIgBARISCgVsaW1pdBgCIAEoBUgBiAEBEi0KBHNvcnQYAyABKA4yGi5tdXNpYy50cmFja3MudjEuU29ydEZpZWxkSAKIAQESLgoFb3JkZXIYBCABKA4yGi5tdXNpYy50cmFja3MudjEuU29ydE9yZGVySAOIAQESEwoGc2VhcmNoGAUgASgJSASIAQESEgoFZ2VucmUYBiABKAlIBYgBARITCgZhcnRpc3QYByABKAlIBogBAUIHCgVfcGFnZUIICgZfbGltaXRCBwoFX3NvcnRCCAoGX29yZGVyQgkKB19zZWFyY2hCCAoGX2dlbnJlQgkKB19hcnRpc3QiUQoOUGFnaW5hdGlvbk1ldGESDQoFdG90YWwYASABKAUSDAoEcGFnZRgCIAEoBRINCgVsaW1pdBgDIAEoBRITCgt0b3RhbF9wYWdlcxgEIAEoBSJGChBHZXRUcmFja3NSZXF1ZXN0EjIKDHF1ZXJ5X3BhcmFtcxgBIAEoCzIcLm11c2ljLnRyYWNrcy52MS5RdWVyeVBhcmFtcyJoChFHZXRUcmFja3NSZXNwb25zZRIkCgRkYXRhGAEgAygLMhYubXVzaWMudHJhY2tzLnYxLlRyYWNrEi0KBG1ldGEYAiABKAsyHy5tdXNpYy50cmFja3MudjEuUGFnaW5hdGlvbk1ldGEiHwoPR2V0VHJhY2tSZXF1ZXN0EgwKBHNsdWcYASABKAkiOQoQR2V0VHJhY2tSZXNwb25zZRIlCgV0cmFjaxgBIAEoCzIWLm11c2ljLnRyYWNrcy52MS5UcmFjayKLAQoSQ3JlYXRlVHJhY2tSZXF1ZXN0Eg0KBXRpdGxlGAEgASgJEg4KBmFydGlzdBgCIAEoCRISCgVhbGJ1bRgDIAEoCUgAiAEBEg4KBmdlbnJlcxgEIAMoCRIYCgtjb3Zlcl9pbWFnZRgFIAEoCUgBiAEBQggKBl9hbGJ1bUIOCgxfY292ZXJfaW1hZ2UiPAoTQ3JlYXRlVHJhY2tSZXNwb25zZRIlCgV0cmFjaxgBIAEoCzIWLm11c2ljLnRyYWNrcy52MS5UcmFjayLeAQoSVXBkYXRlVHJhY2tSZXF1ZXN0EgoKAmlkGAEgASgJEhIKBXRpdGxlGAIgASgJSACIAQESEwoGYXJ0aXN0GAMgASgJSAGIAQESEgoFYWxidW0YBCABKAlIAogBARIOCgZnZW5yZXMYBSADKAkSGAoLY292ZXJfaW1hZ2UYBiABKAlIA4gBARIXCgphdWRpb19maWxlGAcgASgJSASIAQFCCAoGX3RpdGxlQgkKB19hcnRpc3RCCAoGX2FsYnVtQg4KDF9jb3Zlcl9pbWFnZUINCgtfYXVkaW9fZmlsZSI8ChNVcGRhdGVUcmFja1Jlc3BvbnNlEiUKBXRyYWNrGAEgASgLMhYubXVzaWMudHJhY2tzLnYxLlRyYWNrIiAKEkRlbGV0ZVRyYWNrUmVxdWVzdBIKCgJpZBgBIAEoCSI3ChNEZWxldGVUcmFja1Jlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgSDwoHbWVzc2FnZRgCIAEoCSIiChNEZWxldGVUcmFja3NSZXF1ZXN0EgsKA2lkcxgBIAMoCSI3ChREZWxldGVUcmFja3NSZXNwb25zZRIPCgdzdWNjZXNzGAEgAygJEg4KBmZhaWxlZBgCIAMoCSJFCglGaWxlQ2h1bmsSDAoEZGF0YRgBIAEoDBIUCgxjaHVua19udW1iZXIYAiABKAUSFAoMdG90YWxfY2h1bmtzGAMgASgFIoYBChJVcGxvYWRUcmFja1JlcXVlc3QSOAoIbWV0YWRhdGEYASABKAsyJC5tdXNpYy50cmFja3MudjEuVXBsb2FkVHJhY2tNZXRhZGF0YUgAEisKBWNodW5rGAIgASgLMhoubXVzaWMudHJhY2tzLnYxLkZpbGVDaHVua0gAQgkKB3JlcXVlc3QiYwoTVXBsb2FkVHJhY2tNZXRhZGF0YRIQCgh0cmFja19pZBgBIAEoCRIRCglmaWxlX25hbWUYAiABKAkSFAoMY29udGVudF90eXBlGAMgASgJEhEKCWZpbGVfc2l6ZRgEIAEoAyKLAQoTVXBsb2FkVHJhY2tSZXNwb25zZRIzCghwcm9ncmVzcxgBIAEoCzIfLm11c2ljLnRyYWNrcy52MS5VcGxvYWRQcm9ncmVzc0gAEjMKCGNvbXBsZXRlGAIgASgLMh8ubXVzaWMudHJhY2tzLnYxLlVwbG9hZENvbXBsZXRlSABCCgoIcmVzcG9uc2UiUQoOVXBsb2FkUHJvZ3Jlc3MSFgoOYnl0ZXNfdXBsb2FkZWQYASABKAMSEwoLdG90YWxfYnl0ZXMYAiABKAMSEgoKcGVyY2VudGFnZRgDIAEoAiJJCg5VcGxvYWRDb21wbGV0ZRIlCgV0cmFjaxgBIAEoCzIWLm11c2ljLnRyYWNrcy52MS5UcmFjaxIQCghmaWxlX3VybBgCIAEoCSIkChZEZWxldGVUcmFja0ZpbGVSZXF1ZXN0EgoKAmlkGAEgASgJIjsKF0RlbGV0ZVRyYWNrRmlsZVJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgSDwoHbWVzc2FnZRgCIAEoCSqFAQoJU29ydEZpZWxkEhoKFlNPUlRfRklFTERfVU5TUEVDSUZJRUQQABIUChBTT1JUX0ZJRUxEX1RJVExFEAESFQoRU09SVF9GSUVMRF9BUlRJU1QQAhIUChBTT1JUX0ZJRUxEX0FMQlVNEAMSGQoVU09SVF9GSUVMRF9DUkVBVEVEX0FUEAQqUAoJU29ydE9yZGVyEhoKFlNPUlRfT1JERVJfVU5TUEVDSUZJRUQQABISCg5TT1JUX09SREVSX0FTQxABEhMKD1NPUlRfT1JERVJfREVTQxACMuMFCg1UcmFja3NTZXJ2aWNlElIKCUdldFRyYWNrcxIhLm11c2ljLnRyYWNrcy52MS5HZXRUcmFja3NSZXF1ZXN0GiIubXVzaWMudHJhY2tzLnYxLkdldFRyYWNrc1Jlc3BvbnNlEk8KCEdldFRyYWNrEiAubXVzaWMudHJhY2tzLnYxLkdldFRyYWNrUmVxdWVzdBohLm11c2ljLnRyYWNrcy52MS5HZXRUcmFja1Jlc3BvbnNlElgKC0NyZWF0ZVRyYWNrEiMubXVzaWMudHJhY2tzLnYxLkNyZWF0ZVRyYWNrUmVxdWVzdBokLm11c2ljLnRyYWNrcy52MS5DcmVhdGVUcmFja1Jlc3BvbnNlElgKC1VwZGF0ZVRyYWNrEiMubXVzaWMudHJhY2tzLnYxLlVwZGF0ZVRyYWNrUmVxdWVzdBokLm11c2ljLnRyYWNrcy52MS5VcGRhdGVUcmFja1Jlc3BvbnNlElgKC0RlbGV0ZVRyYWNrEiMubXVzaWMudHJhY2tzLnYxLkRlbGV0ZVRyYWNrUmVxdWVzdBokLm11c2ljLnRyYWNrcy52MS5EZWxldGVUcmFja1Jlc3BvbnNlElsKDERlbGV0ZVRyYWNrcxIkLm11c2ljLnRyYWNrcy52MS5EZWxldGVUcmFja3NSZXF1ZXN0GiUubXVzaWMudHJhY2tzLnYxLkRlbGV0ZVRyYWNrc1Jlc3BvbnNlElwKC1VwbG9hZFRyYWNrEiMubXVzaWMudHJhY2tzLnYxLlVwbG9hZFRyYWNrUmVxdWVzdBokLm11c2ljLnRyYWNrcy52MS5VcGxvYWRUcmFja1Jlc3BvbnNlKAEwARJkCg9EZWxldGVUcmFja0ZpbGUSJy5tdXNpYy50cmFja3MudjEuRGVsZXRlVHJhY2tGaWxlUmVxdWVzdBooLm11c2ljLnRyYWNrcy52MS5EZWxldGVUcmFja0ZpbGVSZXNwb25zZWIGcHJvdG8z", [file_google_protobuf_timestamp]);
+  fileDesc("Cgx0cmFja3MucHJvdG8SD211c2ljLnRyYWNrcy52MSLoAQoFVHJhY2sSCgoCaWQYASABKAkSDQoFdGl0bGUYAiABKAkSDgoGYXJ0aXN0GAMgASgJEhIKBWFsYnVtGAQgASgJSACIAQESDgoGZ2VucmVzGAUgAygJEgwKBHNsdWcYBiABKAkSGAoLY292ZXJfaW1hZ2UYByABKAlIAYgBARIXCgphdWRpb19maWxlGAggASgJSAKIAQESEgoKY3JlYXRlZF9hdBgJIAEoCRISCgp1cGRhdGVkX2F0GAogASgJQggKBl9hbGJ1bUIOCgxfY292ZXJfaW1hZ2VCDQoLX2F1ZGlvX2ZpbGUilwIKC1F1ZXJ5UGFyYW1zEhEKBHBhZ2UYASABKAVIAIgBARISCgVsaW1pdBgCIAEoBUgBiAEBEi0KBHNvcnQYAyABKA4yGi5tdXNpYy50cmFja3MudjEuU29ydEZpZWxkSAKIAQESLgoFb3JkZXIYBCABKA4yGi5tdXNpYy50cmFja3MudjEuU29ydE9yZGVySAOIAQESEwoGc2VhcmNoGAUgASgJSASIAQESEgoFZ2VucmUYBiABKAlIBYgBARITCgZhcnRpc3QYByABKAlIBogBAUIHCgVfcGFnZUIICgZfbGltaXRCBwoFX3NvcnRCCAoGX29yZGVyQgkKB19zZWFyY2hCCAoGX2dlbnJlQgkKB19hcnRpc3QiUQoOUGFnaW5hdGlvbk1ldGESDQoFdG90YWwYASABKAUSDAoEcGFnZRgCIAEoBRINCgVsaW1pdBgDIAEoBRITCgt0b3RhbF9wYWdlcxgEIAEoBSJGChBHZXRUcmFja3NSZXF1ZXN0EjIKDHF1ZXJ5X3BhcmFtcxgBIAEoCzIcLm11c2ljLnRyYWNrcy52MS5RdWVyeVBhcmFtcyJoChFHZXRUcmFja3NSZXNwb25zZRIkCgRkYXRhGAEgAygLMhYubXVzaWMudHJhY2tzLnYxLlRyYWNrEi0KBG1ldGEYAiABKAsyHy5tdXNpYy50cmFja3MudjEuUGFnaW5hdGlvbk1ldGEiHwoPR2V0VHJhY2tSZXF1ZXN0EgwKBHNsdWcYASABKAkiOQoQR2V0VHJhY2tSZXNwb25zZRIlCgV0cmFjaxgBIAEoCzIWLm11c2ljLnRyYWNrcy52MS5UcmFjayKLAQoSQ3JlYXRlVHJhY2tSZXF1ZXN0Eg0KBXRpdGxlGAEgASgJEg4KBmFydGlzdBgCIAEoCRISCgVhbGJ1bRgDIAEoCUgAiAEBEg4KBmdlbnJlcxgEIAMoCRIYCgtjb3Zlcl9pbWFnZRgFIAEoCUgBiAEBQggKBl9hbGJ1bUIOCgxfY292ZXJfaW1hZ2UiPAoTQ3JlYXRlVHJhY2tSZXNwb25zZRIlCgV0cmFjaxgBIAEoCzIWLm11c2ljLnRyYWNrcy52MS5UcmFjayLeAQoSVXBkYXRlVHJhY2tSZXF1ZXN0EgoKAmlkGAEgASgJEhIKBXRpdGxlGAIgASgJSACIAQESEwoGYXJ0aXN0GAMgASgJSAGIAQESEgoFYWxidW0YBCABKAlIAogBARIOCgZnZW5yZXMYBSADKAkSGAoLY292ZXJfaW1hZ2UYBiABKAlIA4gBARIXCgphdWRpb19maWxlGAcgASgJSASIAQFCCAoGX3RpdGxlQgkKB19hcnRpc3RCCAoGX2FsYnVtQg4KDF9jb3Zlcl9pbWFnZUINCgtfYXVkaW9fZmlsZSI8ChNVcGRhdGVUcmFja1Jlc3BvbnNlEiUKBXRyYWNrGAEgASgLMhYubXVzaWMudHJhY2tzLnYxLlRyYWNrIiAKEkRlbGV0ZVRyYWNrUmVxdWVzdBIKCgJpZBgBIAEoCSI3ChNEZWxldGVUcmFja1Jlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgSDwoHbWVzc2FnZRgCIAEoCSIiChNEZWxldGVUcmFja3NSZXF1ZXN0EgsKA2lkcxgBIAMoCSI3ChREZWxldGVUcmFja3NSZXNwb25zZRIPCgdzdWNjZXNzGAEgAygJEg4KBmZhaWxlZBgCIAMoCSJiChJVcGxvYWRUcmFja1JlcXVlc3QSEAoIdHJhY2tfaWQYASABKAkSEQoJZmlsZV9uYW1lGAIgASgJEhQKDGNvbnRlbnRfdHlwZRgDIAEoCRIRCglmaWxlX2RhdGEYBCABKAwiTgoTVXBsb2FkVHJhY2tSZXNwb25zZRIlCgV0cmFjaxgBIAEoCzIWLm11c2ljLnRyYWNrcy52MS5UcmFjaxIQCghmaWxlX3VybBgCIAEoCSIkChZEZWxldGVUcmFja0ZpbGVSZXF1ZXN0EgoKAmlkGAEgASgJIjsKF0RlbGV0ZVRyYWNrRmlsZVJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgSDwoHbWVzc2FnZRgCIAEoCSqFAQoJU29ydEZpZWxkEhoKFlNPUlRfRklFTERfVU5TUEVDSUZJRUQQABIUChBTT1JUX0ZJRUxEX1RJVExFEAESFQoRU09SVF9GSUVMRF9BUlRJU1QQAhIUChBTT1JUX0ZJRUxEX0FMQlVNEAMSGQoVU09SVF9GSUVMRF9DUkVBVEVEX0FUEAQqUAoJU29ydE9yZGVyEhoKFlNPUlRfT1JERVJfVU5TUEVDSUZJRUQQABISCg5TT1JUX09SREVSX0FTQxABEhMKD1NPUlRfT1JERVJfREVTQxACMt8FCg1UcmFja3NTZXJ2aWNlElIKCUdldFRyYWNrcxIhLm11c2ljLnRyYWNrcy52MS5HZXRUcmFja3NSZXF1ZXN0GiIubXVzaWMudHJhY2tzLnYxLkdldFRyYWNrc1Jlc3BvbnNlEk8KCEdldFRyYWNrEiAubXVzaWMudHJhY2tzLnYxLkdldFRyYWNrUmVxdWVzdBohLm11c2ljLnRyYWNrcy52MS5HZXRUcmFja1Jlc3BvbnNlElgKC0NyZWF0ZVRyYWNrEiMubXVzaWMudHJhY2tzLnYxLkNyZWF0ZVRyYWNrUmVxdWVzdBokLm11c2ljLnRyYWNrcy52MS5DcmVhdGVUcmFja1Jlc3BvbnNlElgKC1VwZGF0ZVRyYWNrEiMubXVzaWMudHJhY2tzLnYxLlVwZGF0ZVRyYWNrUmVxdWVzdBokLm11c2ljLnRyYWNrcy52MS5VcGRhdGVUcmFja1Jlc3BvbnNlElgKC0RlbGV0ZVRyYWNrEiMubXVzaWMudHJhY2tzLnYxLkRlbGV0ZVRyYWNrUmVxdWVzdBokLm11c2ljLnRyYWNrcy52MS5EZWxldGVUcmFja1Jlc3BvbnNlElsKDERlbGV0ZVRyYWNrcxIkLm11c2ljLnRyYWNrcy52MS5EZWxldGVUcmFja3NSZXF1ZXN0GiUubXVzaWMudHJhY2tzLnYxLkRlbGV0ZVRyYWNrc1Jlc3BvbnNlElgKC1VwbG9hZFRyYWNrEiMubXVzaWMudHJhY2tzLnYxLlVwbG9hZFRyYWNrUmVxdWVzdBokLm11c2ljLnRyYWNrcy52MS5VcGxvYWRUcmFja1Jlc3BvbnNlEmQKD0RlbGV0ZVRyYWNrRmlsZRInLm11c2ljLnRyYWNrcy52MS5EZWxldGVUcmFja0ZpbGVSZXF1ZXN0GigubXVzaWMudHJhY2tzLnYxLkRlbGV0ZVRyYWNrRmlsZVJlc3BvbnNlYgZwcm90bzM", [file_google_protobuf_timestamp]);
 
 /**
  * @generated from message music.tracks.v1.Track
@@ -424,65 +424,11 @@ export const DeleteTracksResponseSchema: GenMessage<DeleteTracksResponse> = /*@_
   messageDesc(file_tracks, 14);
 
 /**
- * @generated from message music.tracks.v1.FileChunk
- */
-export type FileChunk = Message<"music.tracks.v1.FileChunk"> & {
-  /**
-   * @generated from field: bytes data = 1;
-   */
-  data: Uint8Array;
-
-  /**
-   * @generated from field: int32 chunk_number = 2;
-   */
-  chunkNumber: number;
-
-  /**
-   * @generated from field: int32 total_chunks = 3;
-   */
-  totalChunks: number;
-};
-
-/**
- * Describes the message music.tracks.v1.FileChunk.
- * Use `create(FileChunkSchema)` to create a new message.
- */
-export const FileChunkSchema: GenMessage<FileChunk> = /*@__PURE__*/
-  messageDesc(file_tracks, 15);
-
-/**
+ * Simplified upload request for web compatibility
+ *
  * @generated from message music.tracks.v1.UploadTrackRequest
  */
 export type UploadTrackRequest = Message<"music.tracks.v1.UploadTrackRequest"> & {
-  /**
-   * @generated from oneof music.tracks.v1.UploadTrackRequest.request
-   */
-  request: {
-    /**
-     * @generated from field: music.tracks.v1.UploadTrackMetadata metadata = 1;
-     */
-    value: UploadTrackMetadata;
-    case: "metadata";
-  } | {
-    /**
-     * @generated from field: music.tracks.v1.FileChunk chunk = 2;
-     */
-    value: FileChunk;
-    case: "chunk";
-  } | { case: undefined; value?: undefined };
-};
-
-/**
- * Describes the message music.tracks.v1.UploadTrackRequest.
- * Use `create(UploadTrackRequestSchema)` to create a new message.
- */
-export const UploadTrackRequestSchema: GenMessage<UploadTrackRequest> = /*@__PURE__*/
-  messageDesc(file_tracks, 16);
-
-/**
- * @generated from message music.tracks.v1.UploadTrackMetadata
- */
-export type UploadTrackMetadata = Message<"music.tracks.v1.UploadTrackMetadata"> & {
   /**
    * @generated from field: string track_id = 1;
    */
@@ -499,78 +445,22 @@ export type UploadTrackMetadata = Message<"music.tracks.v1.UploadTrackMetadata">
   contentType: string;
 
   /**
-   * @generated from field: int64 file_size = 4;
+   * @generated from field: bytes file_data = 4;
    */
-  fileSize: bigint;
+  fileData: Uint8Array;
 };
 
 /**
- * Describes the message music.tracks.v1.UploadTrackMetadata.
- * Use `create(UploadTrackMetadataSchema)` to create a new message.
+ * Describes the message music.tracks.v1.UploadTrackRequest.
+ * Use `create(UploadTrackRequestSchema)` to create a new message.
  */
-export const UploadTrackMetadataSchema: GenMessage<UploadTrackMetadata> = /*@__PURE__*/
-  messageDesc(file_tracks, 17);
+export const UploadTrackRequestSchema: GenMessage<UploadTrackRequest> = /*@__PURE__*/
+  messageDesc(file_tracks, 15);
 
 /**
  * @generated from message music.tracks.v1.UploadTrackResponse
  */
 export type UploadTrackResponse = Message<"music.tracks.v1.UploadTrackResponse"> & {
-  /**
-   * @generated from oneof music.tracks.v1.UploadTrackResponse.response
-   */
-  response: {
-    /**
-     * @generated from field: music.tracks.v1.UploadProgress progress = 1;
-     */
-    value: UploadProgress;
-    case: "progress";
-  } | {
-    /**
-     * @generated from field: music.tracks.v1.UploadComplete complete = 2;
-     */
-    value: UploadComplete;
-    case: "complete";
-  } | { case: undefined; value?: undefined };
-};
-
-/**
- * Describes the message music.tracks.v1.UploadTrackResponse.
- * Use `create(UploadTrackResponseSchema)` to create a new message.
- */
-export const UploadTrackResponseSchema: GenMessage<UploadTrackResponse> = /*@__PURE__*/
-  messageDesc(file_tracks, 18);
-
-/**
- * @generated from message music.tracks.v1.UploadProgress
- */
-export type UploadProgress = Message<"music.tracks.v1.UploadProgress"> & {
-  /**
-   * @generated from field: int64 bytes_uploaded = 1;
-   */
-  bytesUploaded: bigint;
-
-  /**
-   * @generated from field: int64 total_bytes = 2;
-   */
-  totalBytes: bigint;
-
-  /**
-   * @generated from field: float percentage = 3;
-   */
-  percentage: number;
-};
-
-/**
- * Describes the message music.tracks.v1.UploadProgress.
- * Use `create(UploadProgressSchema)` to create a new message.
- */
-export const UploadProgressSchema: GenMessage<UploadProgress> = /*@__PURE__*/
-  messageDesc(file_tracks, 19);
-
-/**
- * @generated from message music.tracks.v1.UploadComplete
- */
-export type UploadComplete = Message<"music.tracks.v1.UploadComplete"> & {
   /**
    * @generated from field: music.tracks.v1.Track track = 1;
    */
@@ -583,11 +473,11 @@ export type UploadComplete = Message<"music.tracks.v1.UploadComplete"> & {
 };
 
 /**
- * Describes the message music.tracks.v1.UploadComplete.
- * Use `create(UploadCompleteSchema)` to create a new message.
+ * Describes the message music.tracks.v1.UploadTrackResponse.
+ * Use `create(UploadTrackResponseSchema)` to create a new message.
  */
-export const UploadCompleteSchema: GenMessage<UploadComplete> = /*@__PURE__*/
-  messageDesc(file_tracks, 20);
+export const UploadTrackResponseSchema: GenMessage<UploadTrackResponse> = /*@__PURE__*/
+  messageDesc(file_tracks, 16);
 
 /**
  * @generated from message music.tracks.v1.DeleteTrackFileRequest
@@ -604,7 +494,7 @@ export type DeleteTrackFileRequest = Message<"music.tracks.v1.DeleteTrackFileReq
  * Use `create(DeleteTrackFileRequestSchema)` to create a new message.
  */
 export const DeleteTrackFileRequestSchema: GenMessage<DeleteTrackFileRequest> = /*@__PURE__*/
-  messageDesc(file_tracks, 21);
+  messageDesc(file_tracks, 17);
 
 /**
  * @generated from message music.tracks.v1.DeleteTrackFileResponse
@@ -626,7 +516,7 @@ export type DeleteTrackFileResponse = Message<"music.tracks.v1.DeleteTrackFileRe
  * Use `create(DeleteTrackFileResponseSchema)` to create a new message.
  */
 export const DeleteTrackFileResponseSchema: GenMessage<DeleteTrackFileResponse> = /*@__PURE__*/
-  messageDesc(file_tracks, 22);
+  messageDesc(file_tracks, 18);
 
 /**
  * @generated from enum music.tracks.v1.SortField
@@ -746,7 +636,7 @@ export const TracksService: GenService<{
    * @generated from rpc music.tracks.v1.TracksService.UploadTrack
    */
   uploadTrack: {
-    methodKind: "bidi_streaming";
+    methodKind: "unary";
     input: typeof UploadTrackRequestSchema;
     output: typeof UploadTrackResponseSchema;
   },

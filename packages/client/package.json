@@ -12,6 +12,9 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@bufbuild/protobuf": "^2.5.2",
+    "@connectrpc/connect": "^2.0.2",
+    "@connectrpc/connect-web": "^2.0.2",
     "@hookform/resolvers": "^5.0.1",
     "@mobily/ts-belt": "^3.13.1",
     "@radix-ui/react-alert-dialog": "^1.1.11",

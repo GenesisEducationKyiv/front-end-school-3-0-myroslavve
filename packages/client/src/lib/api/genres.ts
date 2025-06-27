@@ -1,24 +1,15 @@
-import { GenresSchema } from "./schemas";
-import { apiFetch } from "./api-fetch";
-import { ok } from "neverthrow";
+import { create } from "@bufbuild/protobuf";
+import { ok, err } from "neverthrow";
+import { genresClient } from "./client";
+import { GetGenresRequestSchema } from "@music-app/common";
 
-let genresCache: string[] | null = null;
-
-const getGenres = async () => {
-    if (genresCache) {
-        return ok(genresCache);
-    }
-
-    const validatedData = await apiFetch('/genres', {
-        schema: GenresSchema
-    });
+export const getGenres = async () => {
+  try {
+    const request = create(GetGenresRequestSchema, {});
+    const response = await genresClient.getGenres(request);
     
-    if (validatedData.isOk()) {
-        genresCache = validatedData.value;
-        return validatedData;
-    }
-
-    return validatedData;
-}
-
-export { getGenres };
+    return ok(response.genres);
+  } catch (error) {
+    return err(new Error(error instanceof Error ? error.message : "Failed to get genres"));
+  }
+};

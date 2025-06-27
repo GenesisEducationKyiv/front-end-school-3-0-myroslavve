@@ -39,7 +39,19 @@ async function start() {
     await fastify.register(cors, {
       origin: config.cors.origin,
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
+      allowedHeaders: [
+        'Content-Type', 
+        'Authorization',
+        'Connect-Protocol-Version',
+        'Connect-Timeout-Ms',
+        'Connect-Accept-Encoding',
+        'Connect-Content-Encoding',
+        'Grpc-Timeout',
+        'Grpc-Encoding',
+        'Grpc-Accept-Encoding',
+        'X-Grpc-Web',
+        'X-User-Agent'
+      ],
     });
     
     await fastify.register(multipart, {
