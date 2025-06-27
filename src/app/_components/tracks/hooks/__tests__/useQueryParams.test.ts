@@ -160,7 +160,6 @@ describe('useQueryParams', () => {
         
         const { result } = renderHook(() => useQueryParams(paramsList))
         
-        // Call setParam multiple times
         act(() => {
             result.current.setParam('param1', 'first')
         })

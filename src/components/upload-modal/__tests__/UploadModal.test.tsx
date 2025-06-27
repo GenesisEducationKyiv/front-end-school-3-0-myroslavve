@@ -24,7 +24,7 @@ describe('UploadModal', () => {
     expect(screen.getByText('Upload a file for the track')).toBeDefined()
   })
 
-  it('should accept valid MP3 file', () => {
+  it('should accept valid MP3 file', async () => {
     render(<UploadModal onUpload={() => {}} onDelete={() => {}} uploaded="" />)
     
     fireEvent.click(screen.getByText('Upload'))
@@ -35,6 +35,7 @@ describe('UploadModal', () => {
     fireEvent.change(input, { target: { files: [file] } })
     
     expect(screen.getByText('Selected: test.mp3')).toBeDefined()
+    expect(screen.queryByText('File must be a valid MP3 or WAV file')).toBeNull()
   })
 
   it('should reject invalid file types', async () => {
