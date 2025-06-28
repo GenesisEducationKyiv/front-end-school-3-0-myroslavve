@@ -2,7 +2,6 @@
 
 import CreateEditModal from "@/components/create-edit-modal";
 import DataTable from "@/components/data-table";
-import Player from "@/components/player";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,6 +15,12 @@ import useTracks from "../../../hooks/tracks/useTracks";
 import useGenres from "../../../hooks/genres/useGenres";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePlayerStore } from "@/stores/player-store";
+import dynamic from "next/dynamic";
+import Spinner from "@/components/ui/spinner";
+
+const Player = dynamic(() => import("@/components/player"), {
+    loading: () => <Spinner />,
+});
 
 const LIMIT_OPTIONS = [5, 10, 20, 50];
 const SORT_OPTIONS = [
