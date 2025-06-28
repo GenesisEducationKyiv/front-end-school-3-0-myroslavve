@@ -11,6 +11,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  webpack: (config, { dev }) => {
+    if (!dev) {
+      config.devtool = 'hidden-source-map';
+    }
+    return config;
+  },
 };
 
 const bundleAnalyzer = withBundleAnalyzer({
