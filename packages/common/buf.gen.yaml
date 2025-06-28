@@ -1,0 +1,8 @@
+version: v2
+plugins:
+  - local: protoc-gen-es
+    out: src/generated/protos
+    opt: 
+      - target=ts
+      - import_extension=none
+    include_imports: true

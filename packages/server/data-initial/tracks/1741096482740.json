@@ -1,0 +1,13 @@
+{
+  "title": "Love Story",
+  "artist": "Lady Gaga",
+  "album": "30",
+  "genres": [
+    "Indie"
+  ],
+  "slug": "love-story",
+  "coverImage": "https://picsum.photos/seed/Love%20Story/300/300",
+  "id": "1741096482740",
+  "createdAt": "2025-03-04T13:54:42.740Z",
+  "updatedAt": "2025-03-04T13:54:42.740Z"
+}
