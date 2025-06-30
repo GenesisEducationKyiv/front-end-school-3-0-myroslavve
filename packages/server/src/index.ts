@@ -7,7 +7,6 @@ import swaggerUi from '@fastify/swagger-ui';
 import { fastifyConnectPlugin } from '@connectrpc/connect-fastify';
 import { ConnectRouter } from '@connectrpc/connect';
 import { TracksService, GenresService } from '@music-app/common';
-import path from 'path';
 import routes from './routes';
 import { initializeDb } from './utils/db';
 import config from './config';
@@ -95,7 +94,6 @@ async function start() {
       }
     });
     
-    // Register REST routes (for backward compatibility)
     await fastify.register(routes);
     
     // Start server
