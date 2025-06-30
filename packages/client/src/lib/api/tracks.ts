@@ -1,61 +1,18 @@
-import { create } from "@bufbuild/protobuf";
 import { ok, err } from "neverthrow";
 import { tracksClient } from "./client";
-import {
-  GetTracksRequestSchema,
-  GetTrackRequestSchema,
-  CreateTrackRequestSchema,
-  UpdateTrackRequestSchema,
-  DeleteTrackRequestSchema,
-  DeleteTracksRequestSchema,
-  UploadTrackRequestSchema,
-  DeleteTrackFileRequestSchema,
-  SortOrder,
-  SortField,
-} from "@music-app/common";
 import { readFileAsArrayBuffer } from "../utils/files";
+import { QueryParams } from "./schemas";
+import { mapSortField, mapSortOrder } from "./types";
 
-const mapSortField = (sort?: string): SortField => {
-    switch (sort) {
-        case "title": return SortField.TITLE;
-        case "artist": return SortField.ARTIST;
-        case "album": return SortField.ALBUM;
-        case "createdAt": return SortField.CREATED_AT;
-        default: return SortField.UNSPECIFIED;
-    }
-}
-
-const mapSortOrder = (order?: string): SortOrder => {
-  switch (order) {
-    case "asc": return SortOrder.ASC;
-    case "desc": return SortOrder.DESC;
-    default: return SortOrder.UNSPECIFIED;
-  }
-};
-
-export const getTracks = async (queryParams: {
-    page?: number;
-    limit?: number;
-    sort?: string;
-    order?: string;
-    search?: string;
-    genre?: string;
-    artist?: string;
-} = {}) => {
+export const getTracks = async (queryParams: QueryParams) => {
   try {
-    const request = create(GetTracksRequestSchema, {
+    const response = await tracksClient.getTracks({
       queryParams: {
-        page: queryParams.page,
-        limit: queryParams.limit,
-        sort: mapSortField(queryParams.sort),
-        order: mapSortOrder(queryParams.order),
-        search: queryParams.search,
-        genre: queryParams.genre,
-        artist: queryParams.artist,
+        ...queryParams,
+        sort: queryParams.sort ? mapSortField[queryParams.sort] : undefined,
+        order: queryParams.order ? mapSortOrder[queryParams.order] : undefined,
       },
     });
-
-    const response = await tracksClient.getTracks(request);
     
     return ok({
       data: response.data,
@@ -68,8 +25,7 @@ export const getTracks = async (queryParams: {
 
 export const getTrack = async (slug: string) => {
   try {
-    const request = create(GetTrackRequestSchema, { slug });
-    const response = await tracksClient.getTrack(request);
+    const response = await tracksClient.getTrack({ slug });
     
     if (!response.track) {
       return err(new Error("Track not found"));
@@ -89,8 +45,7 @@ export const createTrack = async (track: {
   coverImage?: string;
 }) => {
   try {
-    const request = create(CreateTrackRequestSchema, track);
-    const response = await tracksClient.createTrack(request);
+    const response = await tracksClient.createTrack(track);
     
     if (!response.track) {
       return err(new Error("Failed to create track"));
@@ -111,12 +66,10 @@ export const updateTrack = async (id: string, track: {
   audioFile?: string;
 }) => {
   try {
-    const request = create(UpdateTrackRequestSchema, {
+    const response = await tracksClient.updateTrack({
       id,
       ...track,
     });
-
-    const response = await tracksClient.updateTrack(request);
     
     if (!response.track) {
       return err(new Error("Failed to update track"));
@@ -130,8 +83,7 @@ export const updateTrack = async (id: string, track: {
 
 export const deleteTrack = async (id: string) => {
   try {
-    const request = create(DeleteTrackRequestSchema, { id });
-    const response = await tracksClient.deleteTrack(request);
+    const response = await tracksClient.deleteTrack({ id });
     
     if (!response.success) {
       return err(new Error(response.message || "Failed to delete track"));
@@ -145,8 +97,7 @@ export const deleteTrack = async (id: string) => {
 
 export const deleteTracks = async (ids: string[]) => {
   try {
-    const request = create(DeleteTracksRequestSchema, { ids });
-    const response = await tracksClient.deleteTracks(request);
+    const response = await tracksClient.deleteTracks({ ids });
     
     return ok({
       success: response.success,
@@ -162,14 +113,12 @@ export const uploadTrack = async (id: string, file: File) => {
     const arrayBuffer = await readFileAsArrayBuffer(file);
     const fileData = new Uint8Array(arrayBuffer);
     
-    const request = create(UploadTrackRequestSchema, {
+    const response = await tracksClient.uploadTrack({
       trackId: id,
       fileName: file.name,
       contentType: file.type,
       fileData,
     });
-
-    const response = await tracksClient.uploadTrack(request);
     
     if (!response.track) {
       return err(new Error("Upload completed but no track returned"));
@@ -183,8 +132,7 @@ export const uploadTrack = async (id: string, file: File) => {
 
 export const deleteTrackFile = async (id: string) => {
   try {
-    const request = create(DeleteTrackFileRequestSchema, { id });
-    const response = await tracksClient.deleteTrackFile(request);
+    const response = await tracksClient.deleteTrackFile({ id });
     
     if (!response.success) {
       return err(new Error(response.message || "Failed to delete track file"));
