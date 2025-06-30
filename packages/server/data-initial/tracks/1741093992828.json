@@ -1,0 +1,12 @@
+{
+  "title": "Test Upload Track",
+  "artist": "Test Upload Artist",
+  "genres": [
+    "Rock"
+  ],
+  "slug": "test-upload-track",
+  "id": "1741093992828",
+  "createdAt": "2025-03-04T13:13:12.828Z",
+  "updatedAt": "2025-03-04T13:13:12.841Z",
+  "audioFile": "1741093992828.mp3"
+}

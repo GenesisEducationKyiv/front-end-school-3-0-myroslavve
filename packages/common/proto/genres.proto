@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package music.genres.v1;
+
+message GetGenresRequest {
+}
+
+message GetGenresResponse {
+  repeated string genres = 1;
+}
+
+service GenresService {
+  rpc GetGenres(GetGenresRequest) returns (GetGenresResponse);
+}

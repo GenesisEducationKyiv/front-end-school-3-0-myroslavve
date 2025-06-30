@@ -1,0 +1,14 @@
+{
+  "title": "Johnny B. Goode",
+  "artist": "Lady Gaga",
+  "genres": [
+    "Pop",
+    "R&B",
+    "Rock"
+  ],
+  "slug": "johnny-b-goode",
+  "coverImage": "https://picsum.photos/seed/Johnny%20B.%20Goode/300/300",
+  "id": "1741096482742",
+  "createdAt": "2025-03-04T13:54:42.742Z",
+  "updatedAt": "2025-03-04T13:54:42.742Z"
+}
