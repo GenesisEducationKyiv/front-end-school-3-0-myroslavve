@@ -11,14 +11,17 @@ export interface ApiFetchOptions<T> {
     schema?: z.ZodSchema<T>;
 }
 
-export const mapSortField: Record<string, SortField> = {
+export type SortFieldOption = "title" | "artist" | "album" | "createdAt";
+export type SortOrderOption = "asc" | "desc";
+
+export const mapSortField: Record<SortFieldOption, SortField> = {
     title: SortField.TITLE,
     artist: SortField.ARTIST,
     album: SortField.ALBUM,
     createdAt: SortField.CREATED_AT
 };
 
-export const mapSortOrder: Record<string, SortOrder> = {
+export const mapSortOrder: Record<SortOrderOption, SortOrder> = {
   asc: SortOrder.ASC,
   desc: SortOrder.DESC
 };

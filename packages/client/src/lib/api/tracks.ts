@@ -2,15 +2,15 @@ import { ok, err } from "neverthrow";
 import { tracksClient } from "./client";
 import { readFileAsArrayBuffer } from "../utils/files";
 import { QueryParams } from "./schemas";
-import { mapSortField, mapSortOrder } from "./types";
+import { getSortField, getSortOrder } from "../utils/query-params";
 
 export const getTracks = async (queryParams: QueryParams) => {
   try {
     const response = await tracksClient.getTracks({
       queryParams: {
         ...queryParams,
-        sort: queryParams.sort ? mapSortField[queryParams.sort] : undefined,
-        order: queryParams.order ? mapSortOrder[queryParams.order] : undefined,
+        sort: getSortField(queryParams.sort),
+        order: getSortOrder(queryParams.order),
       },
     });
     
