@@ -1,0 +1,63 @@
+.audio-player.rhap_container {
+    background-color: var(--card);
+    box-shadow: none;
+}
+
+.audio-player .rhap_main-controls-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Override theme color (buttons, indicators) */
+.audio-player .rhap_main-controls-button, 
+.audio-player .rhap_play-pause-button,
+.audio-player .rhap_volume-button,
+.audio-player .rhap_repeat-button {
+    color: var(--primary);
+}
+
+/* Override progress bar color */
+.audio-player .rhap_progress-filled,
+.audio-player .rhap_progress-indicator {
+    background-color: var(--primary);
+}
+
+/* Override background color */
+.audio-player .rhap_container {
+    background-color: var(--card);
+    box-shadow: none;
+}
+
+/* Override volume bar color */
+.audio-player .rhap_volume-filled,
+.audio-player .rhap_volume-indicator {
+    background-color: var(--primary);
+}
+
+/* Override font colors for time display */
+.audio-player .rhap_time {
+    color: var(--card-foreground);
+}
+
+.audio-player .rhap_progress-section .rhap_current-time,
+.audio-player .rhap_progress-section .rhap_total-time {
+    width: 3em;
+    flex: 0 0 3em;
+}
+  
+
+/* Override progress bar background */
+.audio-player .rhap_progress-container,
+.audio-player .rhap_volume-container {
+    background-color: none;
+}
+
+/* Status-specific styling */
+.audio-player .rhap_play-status--playing .rhap_progress-filled {
+    background-color: var(--primary);
+}
+
+.audio-player .rhap_play-status--paused .rhap_progress-filled {
+    background-color: var(--muted-foreground);
+}
