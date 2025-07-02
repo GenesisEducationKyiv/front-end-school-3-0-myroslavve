@@ -1,2 +1,4 @@
-export const API_URL = "http://localhost:8000";
-export const STORAGE_URL = `${API_URL}/api/files`;
+import { env } from "@/constants/env";
+
+export const API_URL = env.apiUrl;
+export const STORAGE_URL = env.storageUrl;
