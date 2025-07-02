@@ -15,12 +15,7 @@ import useTracks from "../../../hooks/tracks/useTracks";
 import useGenres from "../../../hooks/genres/useGenres";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePlayerStore } from "@/stores/player-store";
-import dynamic from "next/dynamic";
-import Spinner from "@/components/ui/spinner";
-
-const Player = dynamic(() => import("@/components/player"), {
-    loading: () => <Spinner />,
-});
+import { LazyPlayer } from "@/components/player";
 
 const LIMIT_OPTIONS = [5, 10, 20, 50];
 const SORT_OPTIONS = [
@@ -182,7 +177,7 @@ export function Tracks() {
                     </div>
                 </div>
                 <div className="w-1/3 fixed bottom-2 left-1/2 -translate-x-1/2">
-                    <Player
+                    <LazyPlayer
                         id={currentTrack?.id || ""}
                         src={`${STORAGE_URL}/${currentTrack?.audioFile}`}
                         playerRef={playerRef}
