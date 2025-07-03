@@ -1,4 +1,4 @@
-name: Run ESLint
+name: Run ESLint and typecheck
 
 on:
   push:
@@ -33,3 +33,15 @@ jobs:
         with:
           sarif_file: eslint-results.sarif
           wait-for-processing: true
+  typecheck:
+    name: Run typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install tsc
+        run: npm install -g typescript@5
+
+      - name: Run typecheck
+        run: npx tsc --noEmit
