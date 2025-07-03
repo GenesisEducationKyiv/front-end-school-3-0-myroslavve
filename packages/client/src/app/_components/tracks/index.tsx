@@ -78,7 +78,7 @@ export function Tracks() {
                                     onValueChange={setSort}
                                     data-testid="sort-select"
                                 >
-                                    <SelectTrigger>
+                                    <SelectTrigger data-testid="sort-select">
                                         <SelectValue placeholder="Sort by:" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -97,7 +97,7 @@ export function Tracks() {
                                     value={order}
                                     onValueChange={setOrder}
                                 >
-                                    <SelectTrigger>
+                                    <SelectTrigger data-testid="order-select">
                                         <SelectValue placeholder="Order:" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -117,7 +117,7 @@ export function Tracks() {
                                     onValueChange={setLimit}
                                     disabled={isLoading}
                                 >
-                                    <SelectTrigger>
+                                    <SelectTrigger data-testid="limit-select">
                                         <SelectValue placeholder="Items per page:" />
                                     </SelectTrigger>
                                     <SelectContent>
