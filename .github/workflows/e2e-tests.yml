@@ -43,6 +43,9 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8000
+          NEXT_PUBLIC_STORAGE_URL: http://localhost:8000/api/files
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
