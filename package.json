@@ -9,5 +9,8 @@
         "build": "npm --workspaces run build",
         "start": "npm --workspaces run start",
         "dev": "npm --workspaces run dev"
+    },
+    "dependencies": {
+        "sonner": "^2.0.6"
     }
 }
