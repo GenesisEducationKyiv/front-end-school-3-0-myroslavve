@@ -62,7 +62,6 @@ jobs:
           echo "Server started with PID $(cat server.pid)"
         env:
           NODE_ENV: test
-          PORT: 8000
 
       - name: Start client
         run: |
@@ -72,9 +71,8 @@ jobs:
           echo "Client started with PID $(cat client.pid)"
         env:
           NODE_ENV: test
-          PORT: 3000
           NEXT_PUBLIC_API_URL: http://localhost:8000
-          NEXT_PUBLIC_STORAGE_URL: http://localhost:8000
+          NEXT_PUBLIC_STORAGE_URL: http://localhost:8000/api/files
 
       - name: Wait for services to be ready
         run: |
