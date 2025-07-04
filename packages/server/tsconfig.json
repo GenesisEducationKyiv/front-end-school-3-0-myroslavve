@@ -11,8 +11,8 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@music-app/common": ["../common/src"],
-      "@music-app/common/*": ["../common/src/*"]
+      "@music-app/common": ["../common/dist"],
+      "@music-app/common/*": ["../common/dist/*"]
     }
   },
   "include": ["src/**/*"],

@@ -13,7 +13,10 @@ export default function FilterHeader({ content, filterOptions, setFilter, 'data-
         <span className="flex items-center gap-2">
             {content}
             <Select onValueChange={(value) => { setFilter(value) }} data-testid={dataTestId}>
-                <SelectTrigger className="border-none outline-none shadow-none">
+                <SelectTrigger 
+                    className="border-none outline-none shadow-none"
+                    aria-label={`Filter by ${content}`}
+                >
                     <ListFilterPlusIcon className="w-4 h-4" />
                 </SelectTrigger>
                 <SelectContent>
