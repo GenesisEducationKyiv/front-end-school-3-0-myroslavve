@@ -5,7 +5,6 @@ import { toast } from "sonner";
 
 const useTracks = (genreOptions: string[] = ['All']) => {
     const { page, limit, sort, order, search, genre } = useTracksQueryParams();
-    const { setPage } = useTracksQueryParams();
 
     const { data, isLoading, isFetching, error } = useQuery({
         queryKey: ["tracks", page, limit, sort, order, search, genre],
@@ -20,10 +19,6 @@ const useTracks = (genreOptions: string[] = ['All']) => {
             });
             
             if (result.isOk()) {
-                if (result.value.meta.totalPages < page) {
-                    setPage(result.value.meta.totalPages.toString());
-                }
-
                 return result.value;
             } else {
                 toast.error("Failed to fetch tracks");
