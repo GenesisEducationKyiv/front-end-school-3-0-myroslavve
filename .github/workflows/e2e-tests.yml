@@ -89,11 +89,11 @@ jobs:
         env:
           CI: true
 
-      - name: Upload test results
+      - name: Upload test results and screenshots
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-test-results
           path: |
             playwright-report/
             test-results/
@@ -106,6 +106,9 @@ jobs:
           cat packages/server/server.log || echo "No server logs found"
           echo "=== Client logs ==="
           cat packages/client/client.log || echo "No client logs found"
+          echo "=== Screenshots and test results will be available in artifacts ==="
+          ls -la test-results/ || echo "No test-results directory found"
+          ls -la playwright-report/ || echo "No playwright-report directory found"
 
       - name: Cleanup processes
         if: always()
