@@ -53,6 +53,8 @@ jobs:
           if [ ! -d "data" ]; then
             cp -r data-initial data
           fi
+          echo "Server data directory contents:"
+          ls -la data/
 
       - name: Start server
         run: |
@@ -62,6 +64,7 @@ jobs:
           echo "Server started with PID $(cat server.pid)"
         env:
           NODE_ENV: test
+          PORT: 8000
 
       - name: Start client
         run: |
@@ -71,6 +74,7 @@ jobs:
           echo "Client started with PID $(cat client.pid)"
         env:
           NODE_ENV: test
+          PORT: 3000
           NEXT_PUBLIC_API_URL: http://localhost:8000
           NEXT_PUBLIC_STORAGE_URL: http://localhost:8000/api/files
 
@@ -83,6 +87,45 @@ jobs:
           echo "Waiting for client to be ready..."
           timeout 120 bash -c 'until curl -f http://localhost:3000 > /dev/null 2>&1; do echo "Client not ready yet..."; sleep 3; done'
           echo "Client is ready"
+
+      - name: Debug environment and logs
+        run: |
+          echo "=== Environment Debug Information ==="
+          echo "Current working directory: $(pwd)"
+          echo "Available processes:"
+          ps aux | grep -E "(node|npm)" | head -10
+          
+          echo "=== Server Process Status ==="
+          if [ -f packages/server/server.pid ]; then
+            PID=$(cat packages/server/server.pid)
+            echo "Server PID: $PID"
+            if kill -0 $PID 2>/dev/null; then
+              echo "Server process is running"
+            else
+              echo "Server process is not running"
+            fi
+          else
+            echo "Server PID file not found"
+          fi
+          
+          echo "=== Client Process Status ==="
+          if [ -f packages/client/client.pid ]; then
+            PID=$(cat packages/client/client.pid)
+            echo "Client PID: $PID"
+            if kill -0 $PID 2>/dev/null; then
+              echo "Client process is running"
+            else
+              echo "Client process is not running"
+            fi
+          else
+            echo "Client PID file not found"
+          fi
+          
+          echo "=== Recent Server Logs ==="
+          tail -50 packages/server/server.log || echo "No server logs found"
+          
+          echo "=== Recent Client Logs ==="
+          tail -50 packages/client/client.log || echo "No client logs found"
 
       - name: Run E2E tests
         run: npm run test-e2e
@@ -102,9 +145,9 @@ jobs:
       - name: Debug logs on failure
         if: failure()
         run: |
-          echo "=== Server logs ==="
+          echo "=== Full Server Logs ==="
           cat packages/server/server.log || echo "No server logs found"
-          echo "=== Client logs ==="
+          echo "=== Full Client Logs ==="
           cat packages/client/client.log || echo "No client logs found"
           echo "=== Screenshots and test results will be available in artifacts ==="
           ls -la test-results/ || echo "No test-results directory found"
