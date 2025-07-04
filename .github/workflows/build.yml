@@ -27,8 +27,7 @@ jobs:
             ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
-        run: |
-          npm install --include=optional
+        run: npm ci
     
       - name: Cache build artifacts
         uses: actions/cache@v4
