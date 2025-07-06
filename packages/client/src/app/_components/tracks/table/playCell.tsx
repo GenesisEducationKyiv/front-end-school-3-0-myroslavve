@@ -23,7 +23,7 @@ export default function PlayCell({ row, isLoading }: PlayCellProps) {
     }
 
     return <PlayButton
-        backgroundImage={row.original.coverImage || "/default.png"}
+        backgroundImage={row.original.coverImage || "/default.webp"}
         isPlaying={isCurrentTrackPlaying}
         disabled={isDisabled}
         onClick={handlePlay}
