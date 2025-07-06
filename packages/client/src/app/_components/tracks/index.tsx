@@ -78,7 +78,7 @@ export function Tracks() {
                                     onValueChange={setSort}
                                     data-testid="sort-select"
                                 >
-                                    <SelectTrigger data-testid="sort-select">
+                                    <SelectTrigger data-testid="sort-select" className="min-w-[120px]">
                                         <SelectValue placeholder="Sort by:" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -97,7 +97,7 @@ export function Tracks() {
                                     value={order}
                                     onValueChange={setOrder}
                                 >
-                                    <SelectTrigger data-testid="order-select">
+                                    <SelectTrigger data-testid="order-select" className="min-w-[120px]">
                                         <SelectValue placeholder="Order:" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -117,7 +117,7 @@ export function Tracks() {
                                     onValueChange={setLimit}
                                     disabled={isLoading}
                                 >
-                                    <SelectTrigger data-testid="limit-select">
+                                    <SelectTrigger data-testid="limit-select" className="min-w-[120px]">
                                         <SelectValue placeholder="Items per page:" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -135,6 +135,7 @@ export function Tracks() {
                                 defaultValue={search}
                                 onChange={handleSearchInputChange}
                                 data-testid="search-input"
+                                className="min-w-[200px]"
                             />
                             <CreateEditModal data-testid="create-track-button" />
                         </div>
