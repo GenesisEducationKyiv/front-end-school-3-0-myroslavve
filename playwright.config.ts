@@ -28,9 +28,4 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'] },
     },
   ],
-  webServer: process.env.CI ? {
-    command: 'npm run start',
-    url: 'http://localhost:3000',
-    timeout: 120 * 1000,
-  } : undefined,
 });

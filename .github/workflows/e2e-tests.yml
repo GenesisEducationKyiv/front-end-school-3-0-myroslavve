@@ -57,13 +57,20 @@ jobs:
             cp -r data-initial data
           fi
 
+      - name: Start application
+        run: |
+          nohup npm run start > app.log 2>&1 &
+          echo $! > app.pid
+          echo "Application started with PID $(cat app.pid)"
+        env:
+          NODE_ENV: test
+          NEXT_PUBLIC_API_URL: http://localhost:8000
+          NEXT_PUBLIC_STORAGE_URL: http://localhost:8000/api/files
+
       - name: Run E2E tests
         run: npm run test-e2e
         env:
           CI: true
-          NODE_ENV: test
-          NEXT_PUBLIC_API_URL: http://localhost:8000
-          NEXT_PUBLIC_STORAGE_URL: http://localhost:8000/api/files
 
       - name: Upload test results and screenshots
         uses: actions/upload-artifact@v4
