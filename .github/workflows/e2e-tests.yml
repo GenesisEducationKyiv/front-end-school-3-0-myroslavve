@@ -57,15 +57,35 @@ jobs:
             cp -r data-initial data
           fi
 
-      - name: Start application
+      - name: Start server
         run: |
-          nohup npm run start > app.log 2>&1 &
-          echo $! > app.pid
-          echo "Application started with PID $(cat app.pid)"
+          cd packages/server
+          nohup npm run start > server.log 2>&1 &
+          echo $! > server.pid
+          echo "Server started with PID $(cat server.pid)"
+        env:
+          NODE_ENV: test
+
+      - name: Start client
+        run: |
+          cd packages/client
+          nohup npm run start:next > client.log 2>&1 &
+          echo $! > client.pid
+          echo "Client started with PID $(cat client.pid)"
         env:
           NODE_ENV: test
           NEXT_PUBLIC_API_URL: http://localhost:8000
           NEXT_PUBLIC_STORAGE_URL: http://localhost:8000/api/files
+
+      - name: Wait for services to be ready
+        run: |
+          echo "Waiting for server to be ready..."
+          timeout 120 bash -c 'until curl -f http://localhost:8000/health > /dev/null 2>&1; do echo "Server not ready yet..."; sleep 3; done'
+          echo "Server is ready"
+          
+          echo "Waiting for client to be ready..."
+          timeout 120 bash -c 'until curl -f http://localhost:3000 > /dev/null 2>&1; do echo "Client not ready yet..."; sleep 3; done'
+          echo "Client is ready"
 
       - name: Run E2E tests
         run: npm run test-e2e
@@ -85,8 +105,10 @@ jobs:
       - name: Debug logs on failure
         if: failure()
         run: |
-          echo "=== Application logs ==="
-          cat app.log || echo "No application logs found"
+          echo "=== Server logs ==="
+          cat packages/server/server.log || echo "No server logs found"
+          echo "=== Client logs ==="
+          cat packages/client/client.log || echo "No client logs found"
           echo "=== Screenshots and test results will be available in artifacts ==="
           ls -la test-results/ || echo "No test-results directory found"
           ls -la playwright-report/ || echo "No playwright-report directory found"
@@ -94,9 +116,13 @@ jobs:
       - name: Cleanup processes
         if: always()
         run: |
-          if [ -f app.pid ]; then
-            echo "Killing application PID $(cat app.pid)"
-            kill $(cat app.pid) || true
+          if [ -f packages/server/server.pid ]; then
+            echo "Killing server PID $(cat packages/server/server.pid)"
+            kill $(cat packages/server/server.pid) || true
+          fi
+          if [ -f packages/client/client.pid ]; then
+            echo "Killing client PID $(cat packages/client/client.pid)"
+            kill $(cat packages/client/client.pid) || true
           fi
           # Kill any remaining node processes
           pkill -f "node.*dist/index.js" || true

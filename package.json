@@ -7,15 +7,12 @@
     ],
     "scripts": {
         "build": "npm --workspaces run build",
-        "dev": "concurrently \"npm run dev --workspace=packages/server\" \"npm run dev --workspace=packages/client\"",
-        "start": "concurrently \"npm run start --workspace=packages/server\" \"npm run start --workspace=packages/client\"",
+        "start": "npm --workspaces run start",
+        "dev": "npm --workspaces run dev",
         "test-e2e": "playwright test",
         "test-e2e-ui": "playwright test --ui"
     },
     "dependencies": {
         "sonner": "^2.0.6"
-    },
-    "devDependencies": {
-        "concurrently": "^9.1.0"
     }
 }
