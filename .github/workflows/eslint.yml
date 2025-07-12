@@ -1,7 +1,7 @@
 name: Run ESLint and typecheck
 
 on:
-  push:
+  workflow_call:
 
 jobs:
   eslint:
