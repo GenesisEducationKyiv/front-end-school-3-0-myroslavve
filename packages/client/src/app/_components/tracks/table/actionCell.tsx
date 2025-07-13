@@ -1,5 +1,5 @@
 import CreateEditModal from "@/components/create-edit-modal"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button/button"
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdownMenu"
 import { EllipsisIcon, UploadIcon } from "lucide-react"
 

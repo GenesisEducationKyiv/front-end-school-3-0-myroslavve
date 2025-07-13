@@ -2,7 +2,7 @@
 
 import { Track } from "@/lib/api/schemas"
 import { useState } from "react"
-import { Button } from "../ui/button"
+import { Button } from "../ui/button/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
 import dynamic from "next/dynamic"
 import Spinner from "../ui/spinner"
