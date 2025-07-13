@@ -1,4 +1,3 @@
-// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
 import storybook from "eslint-plugin-storybook";
 
 import { FlatCompat } from "@eslint/eslintrc";
@@ -15,7 +14,7 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.plugins("@tanstack/query"),
-  ...compat.extends("next/core-web-vitals", "next/typescript", "plugin:@tanstack/eslint-plugin-query/recommended"),
+  ...compat.extends("next/core-web-vitals", "next/typescript", "plugin:@tanstack/eslint-plugin-query/recommended", "plugin:vitest/recommended"),
   {
     files: ["**/*.test.{js,ts,jsx,tsx}", "**/*.spec.{js,ts,jsx,tsx}"],
     plugins: {

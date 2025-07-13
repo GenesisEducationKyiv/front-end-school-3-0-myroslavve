@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package music.tracks.v1;
 
-import "google/protobuf/timestamp.proto";
-
 enum SortField {
   SORT_FIELD_UNSPECIFIED = 0;
   SORT_FIELD_TITLE = 1;
@@ -109,7 +107,6 @@ message DeleteTracksResponse {
   repeated string failed = 2;
 }
 
-// Simplified upload request for web compatibility
 message UploadTrackRequest {
   string track_id = 1;
   string file_name = 2;
