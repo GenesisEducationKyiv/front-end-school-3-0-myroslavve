@@ -3,7 +3,7 @@
 import { Toaster } from "sonner";
 import { Tracks } from "./_components/tracks";
 import { Suspense } from "react";
-import Spinner from "@/components/ui/spinner";
+import Spinner from "@/components/ui/spinner/spinner";
 
 export default function Home() {
   return (
