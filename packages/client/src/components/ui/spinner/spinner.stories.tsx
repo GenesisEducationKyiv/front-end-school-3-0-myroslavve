@@ -8,9 +8,6 @@ const meta = {
         layout: 'centered',
     },    
     tags: ['autodocs'],
-    argTypes: {
-        // The spinner component doesn't have props currently, but we document this for future reference
-    },
 } satisfies Meta<typeof Spinner>;
 
 export default meta;
