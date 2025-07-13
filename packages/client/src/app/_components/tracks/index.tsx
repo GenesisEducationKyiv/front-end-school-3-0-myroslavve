@@ -2,7 +2,6 @@
 
 import CreateEditModal from "@/components/create-edit-modal";
 import DataTable from "@/components/data-table";
-import Player from "@/components/player";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,6 +15,7 @@ import useTracks from "../../../hooks/tracks/useTracks";
 import useGenres from "../../../hooks/genres/useGenres";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePlayerStore } from "@/stores/player-store";
+import { LazyPlayer } from "@/components/player";
 
 const LIMIT_OPTIONS = [5, 10, 20, 50];
 const SORT_OPTIONS = [
@@ -177,7 +177,7 @@ export function Tracks() {
                     </div>
                 </div>
                 <div className="w-1/3 fixed bottom-2 left-1/2 -translate-x-1/2">
-                    <Player
+                    <LazyPlayer
                         id={currentTrack?.id || ""}
                         src={`${STORAGE_URL}/${currentTrack?.audioFile}`}
                         playerRef={playerRef}
