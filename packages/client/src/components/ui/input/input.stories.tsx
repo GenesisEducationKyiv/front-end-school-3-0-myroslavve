@@ -1,8 +1,5 @@
 import { Input } from "./input";
-import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "../button/button";
-import { Search, Mail, Lock, Eye, EyeOff, User } from "lucide-react";
-import * as React from "react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 const meta = {
     component: Input,

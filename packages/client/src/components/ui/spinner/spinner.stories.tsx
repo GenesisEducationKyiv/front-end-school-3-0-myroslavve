@@ -1,7 +1,5 @@
 import Spinner from "./spinner";
-import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "../button/button";
-import * as React from "react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 const meta = {
     component: Spinner,

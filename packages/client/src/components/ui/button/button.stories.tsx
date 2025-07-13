@@ -1,6 +1,6 @@
 import { Button } from "./button";
-import type { Meta, StoryObj } from "@storybook/react";
-import { Play, Plus, Trash2 } from "lucide-react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { Play } from "lucide-react";
 import * as React from "react";
 
 const meta = {
