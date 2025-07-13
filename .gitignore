@@ -72,6 +72,7 @@ packages/server/data/
 
 # Uploads
 packages/server/uploads/ 
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
