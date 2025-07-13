@@ -46,7 +46,7 @@
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 2rem;
   --card: rgb(255 255 255);
   --card-foreground: rgb(23 29 26);
   --popover: rgb(255 255 255);
