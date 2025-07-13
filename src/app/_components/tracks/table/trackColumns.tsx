@@ -123,19 +123,18 @@ export const columns: ColumnDef<Track>[] = [
         size: 3,
         minSize: 3,
         header: ({ table }) => {
-            const { updateData, isLoading } = table.options.meta as DataTableMeta;
+            const { isLoading } = table.options.meta as DataTableMeta;
 
             return <ActionHeader
                 rows={table.getFilteredSelectedRowModel().rows}
-                updateData={updateData}
                 removeSelectionRows={() => table.toggleAllRowsSelected(false)}
                 isLoading={isLoading}
             />
         },
         cell: ({ row, table }) => {
-            const { updateData, isLoading } = table.options.meta as DataTableMeta;
+            const { isLoading } = table.options.meta as DataTableMeta;
 
-            return <ActionCell row={row} updateData={updateData} isLoading={isLoading} />
+            return <ActionCell row={row} isLoading={isLoading} />
         },
     }
 ]

@@ -1,8 +1,7 @@
 import PlayButton from "@/components/ui/playIcon";
 import { Track } from "@/lib/api/schemas";
 import { Row } from "@tanstack/react-table";
-import { useContext } from "react";
-import AudioContext from "../audioContext";
+import { usePlayerStore } from "@/stores/player-store";
 
 interface PlayCellProps {
     row: Row<Track>
@@ -10,23 +9,23 @@ interface PlayCellProps {
 }
 
 export default function PlayCell({ row, isLoading }: PlayCellProps) {
-    const { track, setTrack, play, pause } = useContext(AudioContext);
+    const { currentTrack, setCurrentTrack, play, pause, isPlaying } = usePlayerStore();
     const isDisabled = isLoading || row.original.audioFile == null;
+    const isCurrentTrackPlaying = currentTrack?.id === row.original.id && isPlaying;
+
+    const handlePlay = () => {
+        if (isCurrentTrackPlaying) {
+            pause();
+        } else {
+            setCurrentTrack(row.original);
+            play();
+        }
+    }
 
     return <PlayButton
         backgroundImage={row.original.coverImage || "/default.png"}
-        isPlaying={(track?.id === row.original.id && track?.isPlaying) ?? false}
+        isPlaying={isCurrentTrackPlaying}
         disabled={isDisabled}
-        onClick={() => {
-            if (track?.id === row.original.id) {
-                if (track.isPlaying) {
-                    pause();
-                } else {
-                    play();
-                }
-            } else {
-                setTrack({ ...row.original, isPlaying: true });
-            }
-        }}
+        onClick={handlePlay}
     />
 }
