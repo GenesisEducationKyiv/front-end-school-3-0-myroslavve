@@ -1,0 +1,15 @@
+{
+  "title": "Bohemian Rhapsody",
+  "artist": "Justin Bieber",
+  "album": "SOS",
+  "genres": [
+    "Rock",
+    "Country"
+  ],
+  "slug": "bohemian-rhapsody",
+  "coverImage": "https://picsum.photos/seed/Bohemian%20Rhapsody/300/300",
+  "audioFile": "test.mp3",
+  "id": "1741096482745",
+  "createdAt": "2025-03-04T13:54:42.745Z",
+  "updatedAt": "2025-04-08T11:40:49.284Z"
+}
