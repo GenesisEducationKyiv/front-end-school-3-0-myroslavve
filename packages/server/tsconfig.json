@@ -9,6 +9,7 @@
     "sourceMap": true,
     "declaration": true,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "@music-app/common": ["../common/dist"],
