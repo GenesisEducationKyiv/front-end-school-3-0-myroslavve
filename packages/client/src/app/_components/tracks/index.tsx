@@ -3,7 +3,7 @@
 import CreateEditModal from "@/components/create-edit-modal";
 import DataTable from "@/components/data-table";
 import { Button } from "@/components/ui/button/button";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/input/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { STORAGE_URL } from "@/constants";

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "../ui/button/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import { Input } from "../ui/input"
+import { Input } from "../ui/input/input"
 
 const uploadFormSchema = z.object({
     file: z.instanceof(File).refine(
