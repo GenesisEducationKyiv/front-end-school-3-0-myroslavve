@@ -4,7 +4,7 @@ import useTracksQueryParams from "../../app/_components/tracks/hooks/useTracksQu
 import { toast } from "sonner";
 
 const useTracks = (genreOptions: string[] = ['All']) => {
-    const { page, limit, sort, order, search, genre, setPage } = useTracksQueryParams();
+    const { page, limit, sort, order, search, genre } = useTracksQueryParams();
 
     const { data, isLoading, isFetching, error } = useQuery({
         queryKey: ["tracks", page, limit, sort, order, search, genre],
