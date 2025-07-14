@@ -1,6 +1,6 @@
 import { vi, describe, beforeEach, afterEach, test, expect } from 'vitest';
-import { debounce } from '../input';
-import { isValidImageUrl } from '../image';
+import { debounce } from '@/lib/utils/input';
+import { isValidImageUrl } from '@/lib/utils/image';
 
 describe('debounce', () => {
     beforeEach(() => {

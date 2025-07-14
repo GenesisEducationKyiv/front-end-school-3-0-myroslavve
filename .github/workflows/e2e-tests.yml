@@ -1,0 +1,96 @@
+name: E2E Tests
+
+on:
+  workflow_call:
+
+jobs:
+  e2e:
+    name: End-to-End Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cache build artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            packages/client/.next
+            packages/server/dist
+          key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}-
+            ${{ runner.os }}-build-
+
+      - name: Build project
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8000
+          NEXT_PUBLIC_STORAGE_URL: http://localhost:8000/api/files
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Copy initial data for server
+        run: |
+          cd packages/server
+          if [ ! -d "data" ]; then
+            cp -r data-initial data
+          fi
+
+      - name: Run E2E tests
+        run: npm run test-e2e
+        env:
+          CI: true
+          NODE_ENV: test
+          NEXT_PUBLIC_API_URL: http://localhost:8000
+          NEXT_PUBLIC_STORAGE_URL: http://localhost:8000/api/files
+
+      - name: Upload test results and screenshots
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-test-results
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+
+      - name: Debug logs on failure
+        if: failure()
+        run: |
+          echo "=== Application logs ==="
+          cat app.log || echo "No application logs found"
+          echo "=== Screenshots and test results will be available in artifacts ==="
+          ls -la test-results/ || echo "No test-results directory found"
+          ls -la playwright-report/ || echo "No playwright-report directory found"
+
+      - name: Cleanup processes
+        if: always()
+        run: |
+          if [ -f app.pid ]; then
+            echo "Killing application PID $(cat app.pid)"
+            kill $(cat app.pid) || true
+          fi
+          # Kill any remaining node processes
+          pkill -f "node.*dist/index.js" || true
+          pkill -f "next start" || true

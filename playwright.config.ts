@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  testDir: './e2e-tests',
+  testDir: './packages/e2e-tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -10,6 +10,7 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
   },
   projects: [
     {
@@ -27,4 +28,9 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'] },
     },
   ],
+  webServer: process.env.CI ? {
+    command: 'npm run start',
+    url: 'http://localhost:3000',
+    timeout: 120 * 1000,
+  } : undefined,
 });
