@@ -7,8 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { STORAGE_URL } from "@/constants";
-import { useRef } from "react";
-import AudioPlayer from "react-h5-audio-player";
+import { useCallback, useMemo, useRef } from "react";
+import type AudioPlayer from "react-h5-audio-player";
 import { columns } from "./table/trackColumns";
 import useTracksQueryParams from "./hooks/useTracksQueryParams";
 import useTracks from "../../../hooks/tracks/useTracks";
@@ -39,7 +39,7 @@ export function Tracks() {
     } = usePlayerStore();
     
     const { genres = [] } = useGenres();
-    const genreOptions = ['All', ...genres];
+    const genreOptions = useMemo(() => ['All', ...genres], [genres]);
     const { tracks: data, tracksMeta, isLoading } = useTracks(genreOptions);
     
     const totalTracks = tracksMeta?.total || 0;
@@ -60,8 +60,8 @@ export function Tracks() {
         nextPage,
     } = useTracksQueryParams();
 
-    const updateTracks = () => queryClient.invalidateQueries({ queryKey: ["tracks"] });
-    const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
+    const updateTracks = useCallback(() => queryClient.invalidateQueries({ queryKey: ["tracks"] }), [queryClient]);
+    const handleSearchInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value), [setSearch]);
     const currentPageTracksStart = data.length > 0 ? (page - 1) * limit + 1 : 0;
     const currentPageTracksEnd = Math.min(page * limit, totalTracks);
 
@@ -78,7 +78,7 @@ export function Tracks() {
                                     onValueChange={setSort}
                                     data-testid="sort-select"
                                 >
-                                    <SelectTrigger data-testid="sort-select">
+                                    <SelectTrigger data-testid="sort-select" className="min-w-[120px]">
                                         <SelectValue placeholder="Sort by:" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -97,7 +97,7 @@ export function Tracks() {
                                     value={order}
                                     onValueChange={setOrder}
                                 >
-                                    <SelectTrigger data-testid="order-select">
+                                    <SelectTrigger data-testid="order-select" className="min-w-[120px]">
                                         <SelectValue placeholder="Order:" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -117,7 +117,7 @@ export function Tracks() {
                                     onValueChange={setLimit}
                                     disabled={isLoading}
                                 >
-                                    <SelectTrigger data-testid="limit-select">
+                                    <SelectTrigger data-testid="limit-select" className="min-w-[120px]">
                                         <SelectValue placeholder="Items per page:" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -135,6 +135,7 @@ export function Tracks() {
                                 defaultValue={search}
                                 onChange={handleSearchInputChange}
                                 data-testid="search-input"
+                                className="min-w-[200px]"
                             />
                             <CreateEditModal data-testid="create-track-button" />
                         </div>
@@ -177,17 +178,19 @@ export function Tracks() {
                     </div>
                 </div>
                 <div className="w-1/3 fixed bottom-2 left-1/2 -translate-x-1/2">
-                    <LazyPlayer
-                        id={currentTrack?.id || ""}
-                        src={`${STORAGE_URL}/${currentTrack?.audioFile}`}
-                        playerRef={playerRef}
-                        hidden={currentTrack == null}
-                        isPlaying={isPlaying}
-                        setIsPlaying={setIsPlaying}
-                        title={currentTrack?.title || ""}
-                        artist={currentTrack?.artist || ""}
-                        cover={currentTrack?.coverImage || ""}
-                    />
+                    {currentTrack && (
+                        <LazyPlayer
+                            id={currentTrack?.id || ""}
+                            src={`${STORAGE_URL}/${currentTrack?.audioFile}`}
+                            playerRef={playerRef}
+                            hidden={currentTrack == null}
+                            isPlaying={isPlaying}
+                            setIsPlaying={setIsPlaying}
+                            title={currentTrack?.title || ""}
+                            artist={currentTrack?.artist || ""}
+                            cover={currentTrack?.coverImage || ""}
+                        />
+                    )}
                 </div>
         </>
     );

@@ -5,4 +5,5 @@ export { default } from "./Player";
 
 export const LazyPlayer = dynamic(() => import("./Player"), {
     loading: () => <Spinner />,
+    ssr: false,
 });
