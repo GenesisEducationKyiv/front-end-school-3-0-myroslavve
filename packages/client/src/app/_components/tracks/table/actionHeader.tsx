@@ -2,7 +2,7 @@ import { DropdownMenuItem } from "@/components/ui/dropdownMenu"
 
 import { EllipsisIcon } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button/button"
 
 import DeleteButton from "@/components/delete-button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdownMenu"

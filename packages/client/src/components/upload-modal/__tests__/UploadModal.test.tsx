@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { it, expect } from 'vitest'
 import UploadModal from '@/components/upload-modal'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button/button'
 
 it('should render correctly', () => {
   render(<UploadModal onUpload={() => {}} onDelete={() => {}} uploaded={''} />)

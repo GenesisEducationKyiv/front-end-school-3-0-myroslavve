@@ -1,5 +1,5 @@
 import { Pause, Play } from "lucide-react";
-import { Button } from "./button";
+import { Button } from "./button/button";
 
 interface PlayButtonProps {
     isPlaying: boolean;

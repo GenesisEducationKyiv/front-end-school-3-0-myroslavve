@@ -1,3 +1,5 @@
+import storybook from "eslint-plugin-storybook";
+
 import { FlatCompat } from "@eslint/eslintrc";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -21,7 +23,13 @@ const eslintConfig = [
     rules: {
       ...vitest.configs.recommended.rules,
     },
+    settings: {
+      next: {
+        rootDir: "packages/client",
+      },
+    },
   },
+  ...storybook.configs["flat/recommended"]
 ];
 
 export default eslintConfig;
