@@ -43,20 +43,6 @@ export const Default: Story = {
     },
 };
 
-export const Email: Story = {
-    args: {
-        type: "email",
-        placeholder: "Enter your email",
-    },
-};
-
-export const Password: Story = {
-    args: {
-        type: "password",
-        placeholder: "Enter your password",
-    },
-};
-
 export const Number: Story = {
     args: {
         type: "number",

@@ -223,7 +223,6 @@ export const Interactive: Story = {
 
         const handleClick = async () => {
             setIsLoading(true);
-            // Simulate async operation
             await new Promise(resolve => setTimeout(resolve, 1000));
             setCount(prev => prev + 1);
             setIsLoading(false);
