@@ -12,7 +12,7 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.plugins("@tanstack/query"),
-  ...compat.extends("next/core-web-vitals", "next/typescript", "plugin:@tanstack/eslint-plugin-query/recommended", "plugin:vitest/recommended"),
+  ...compat.extends("next/core-web-vitals", "next/typescript", "plugin:@tanstack/eslint-plugin-query/recommended"),
   {
     files: ["**/*.test.{js,ts,jsx,tsx}", "**/*.spec.{js,ts,jsx,tsx}"],
     plugins: {
